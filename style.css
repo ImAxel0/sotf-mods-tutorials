@@ -1,0 +1,152 @@
+html {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    color: whitesmoke;
+    font-family: Arial, Helvetica, sans-serif;
+    height: 100%;
+}
+
+.main-container {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+}
+
+.useful-links {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    background-color: rgb(212, 57, 0);
+    border-radius: 10px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.useful-links a {
+    color: black;
+}
+
+.useful-links a:hover {
+    color: white;
+    animation: shake 0.4s; 
+}
+
+.useful-links a:focus {
+    display: none;
+}
+
+@keyframes shake{ 
+    0%{
+      transform: translateX(0) 
+    } 
+    25%{ 
+      transform: translateX(5px); 
+    }      
+    50%{ 
+      transform: translateX(-5px); 
+    } 
+    100%{ 
+      transform: translateX(0px); 
+    } 
+}
+
+.left-panel {
+    padding-top: 10px;
+    border-right: 1px solid rgb(48, 58, 70);
+    background-color: rgb(20, 25, 30);
+    flex: 0.2;
+}
+
+.left-frame-body::-webkit-scrollbar {
+    display: none;
+}
+
+.left-frame-body {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.left-panel iframe {
+    border: 0px;
+}
+
+ul {
+    line-height: 25px;
+}
+
+.chapter-container {
+    border-bottom: 1px solid rgb(187, 0, 14);
+    border-bottom-color: rgb(48, 58, 70);
+}
+
+.chapter-container h3 {
+    padding-top: 10px;
+    margin-left: 10px;
+    margin-bottom: 0px;
+    margin-top: 0px;
+    text-shadow: 0 0 4px rgb(187, 0, 14);
+}
+
+.chapter-container ul {
+    margin: 10px;
+    list-style-type: square;
+    color: orangered;
+}
+
+.chapter-container ul ol {
+    padding-left: 25px;
+}
+
+.right-panel {
+    background-color: rgb(15, 18, 22);
+    flex: 1;  
+}
+
+.right-panel iframe {
+    border-width: 0px;
+}
+
+.logo {
+    margin-left: 10px;
+    transition: 0.3s;
+}
+
+.logo:hover {
+    transform: scale(0.9);
+}
+
+a {
+    color: rgb(209, 209, 209);
+    font-variant: normal;
+    text-decoration: none;
+    transition: 0.15s;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: orangered;
+}
+
+a:active {
+    opacity: 0.7;
+}
+
+a:focus {
+    color: orangered;
+}
+
+.leftframe-bottom-container {
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: rgb(29, 35, 42);
+}

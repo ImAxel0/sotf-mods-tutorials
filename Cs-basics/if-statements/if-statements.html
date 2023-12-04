@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../../right-frame-template.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script>
+    </head>
+    <body>
+        <h1>C&#35; If statements</h1>
+
+        <h2>What are If statments&#63;</h2>
+        <p>
+            An if statement basically let execute the code only if the condition is met.
+            <br>So for example if we would like to change the player speed only when our stamina is below 25
+            <br>we would need an <b>if statement</b> to check if our stamina is below 25.
+            <br>If it is, the code that changes the player speed will be executed, else it won't.
+        </p>
+
+        <pre><code class="language-cs">
+protected override void OnGameStart()
+{
+    if (LocalPlayer.Vitals.GetStamina() < 25) // checking if the player stamina is below 25
+    {
+        // setting the player walk and run speed if the above condition is met
+        LocalPlayer.FpCharacter.SetWalkSpeed(10);
+        LocalPlayer.FpCharacter.SetRunSpeed(20);
+    }
+    // if the condition isn't met the code will continue from this line
+}        
+        </code></pre>
+
+        <h2>Checking multiple conditions</h2>
+        <p>
+            In some cases we may need to check multiple conditions to let our code execute.
+            <br>To do that we have two operators:
+            <ul>
+                <li>Two ampersands: &#38;&#38;</li>
+                <li>Two vertical bars: &#124;&#124;</li>
+            </ul>
+        </p>
+
+        <h3>What's the difference&#63;</h3>
+        <p>
+            We can translate the <q>&#38;&#38;</q> as &#34;if first condition <span style="color: rgb(187, 0, 14);"><b>and</b></span> second condition are met,
+            then execute the code in curly braces&#34;.
+            <br>
+            On the other way, we can translate the <q>&#124;&#124;</q> as &#34;if first condition <span style="color: rgb(187, 0, 14);"><b>or</b></span> 
+            second condition is met, then execute the code in curly braces. &#34;           
+        </p>
+
+        <pre><code class="language-cs">
+// Ampersands example
+
+protected override void OnGameStart()
+{
+    if (LocalPlayer.Vitals.GetStamina() < 25 && LocalPlayer.Vitals.GetHealth() > 70) // checking if the player stamina is below 25 AND the player health is above 70
+    {
+        // setting the player walk and run speed if the above conditions are met
+        LocalPlayer.FpCharacter.SetWalkSpeed(10);
+        LocalPlayer.FpCharacter.SetRunSpeed(20);
+    }
+    // if the conditions aren't met the code will continue from this line
+}
+        </code></pre>
+
+        <pre><code class="language-cs">
+// Vertical bars example
+
+protected override void OnGameStart()
+{
+    if (LocalPlayer.Vitals.GetStamina() < 25 || LocalPlayer.Vitals.GetHealth() > 70) // checking if the player stamina is below 25 OR the player health is above 70
+    {
+        // setting the player walk and run speed if atleast one of the above conditions is met
+        LocalPlayer.FpCharacter.SetWalkSpeed(10);
+        LocalPlayer.FpCharacter.SetRunSpeed(20);
+    }
+    // if none of the conditions is met the code will continue from this line
+}
+        </code></pre>
+    </body>
+</html>

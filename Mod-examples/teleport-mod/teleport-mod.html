@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../../right-frame-template.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script>
+    </head>
+    <body>
+        <h1>Teleporting the Player</h1>
+
+        <h2>How do we teleport to a specified position&#63;</h2>
+        <p>
+            Teleporting is one of the most simple thing to do.
+            <br>
+            We just need to get the <b>Transform</b> of the <b>LocalPlayer</b> and set it's new position as <b>Vector3</b>
+        </p>
+
+        <p>
+            To do that we need to add two dll references to the mod project:
+            <ul>
+                <li>
+                    <b>Sons.dll</b> to access the LocalPlayer
+                </li>
+                <li>
+                    <b>UnityEngine.dll</b> to use the Vector3 type
+                </li>
+            </ul>
+        </p>
+
+        <p>
+            In the example below we are teleporting the player to x:4 y:716 z:-459, which correspond to the top of the mountain:
+        </p>
+
+        <pre><code class="language-cs">
+using SonsSdk;
+using UnityEngine;
+using TheForest.Utils;
+
+namespace TeleportMod;
+
+public class TeleportMod : SonsMod
+{
+    protected override void OnGameStart()
+    {
+        LocalPlayer.Transform.position = new Vector3(4, 716, -459);
+    }
+}
+        </code></pre>
+
+    </body>
+</html>

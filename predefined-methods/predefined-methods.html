@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Predefined methods</title>
+        <link rel="stylesheet" href="../right-frame-template.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script>
+    </head>
+    <body>
+        <h1>Predefined methods</h1>
+        <h2>What are those predefined methods&#63;</h2>
+        <p>Predefined methods like seen in picture below are methods already included in RedLoader mod template which we will use to actually make our first mod.</p>
+        
+        <pre><code class="language-cs">
+protected override void OnInitializeMod()
+{
+    // Do your early mod initialization which doesn't involve game or sdk references here
+    Config.Init();
+}
+
+protected override void OnSdkInitialized()
+{
+    // Do your mod initialization which involves game or sdk references here
+    // This is for stuff like UI creation, event registration etc.
+    ModExampleUi.Create();
+}
+
+protected override void OnGameStart()
+{
+    // This is called once the player spawns in the world and gains control.
+}    
+        </code></pre>
+        
+        <h2><q>OnInitializeMod</q> method</h2>
+        <p>
+            This method gets executed right after starting the game, before it loads into the main menu, and so probably during the RedLoader splashscreen.
+            <br>If you played with mods before, you may know almost every mod comes with a <q><b>.cfg</b></q> file located in the <b>Userdata</b> folder with which you can set different options/settings for the mod.
+            <br>The <b>OnInitializeMod</b> method we're talking about here, it's usually used to manage these config files for the mod (known as <q><b>.cfg</b></q> files).
+        </p>
+        
+        <h2><q>OnSdkInitialized</q> method</h2>
+        <p>
+            This methods gets executed after the <b>OnInitializeMod</b> method and right before loading into the main menu.
+            <br>Stuff that needs to get executed only once and doesn't really involve gameplay should be done in here. 
+            Examples are the creation of an UI using <a href="https://tonimacaroni.github.io/RedLoader/api/SUI.html">SUI</a>,
+            or <a href="https://tonimacaroni.github.io/RedLoader/articles/sounds.html?q=sound">registering custom sounds</a>.
+        </p>
+
+        <h2><q>OnGameStart</q> method</h2>
+        <p>
+            This methods gets executed right before we finished loading into a savegame and we gain player control.
+            <br>Since at this point we are basically loaded into the game, here we can do stuff with the player and world.
+            <br>Note that this method get executed whenever we load into a savegame, so exiting to main menu and<br>loading into the 
+            same or another savegame will trigger it again unlike the two methods above which are executed only once.
+            <br>This will also be the method we'll use to make our first mod.
+        </p>
+
+        <div class="bottom-buttons">
+            <a href="../installing-programs/installing-programs.html" target="pointed-iframe"><button>Previous lesson</button></a>
+            <a href="../coding-first-mod/coding-first-mod.html" target="pointed-iframe"><button>Next lesson</button></a>
+        </div>
+    </body>
+</html>

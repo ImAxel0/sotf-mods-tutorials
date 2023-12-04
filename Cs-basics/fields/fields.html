@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../../right-frame-template.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script>
+    </head>
+    <body>
+        <h1>C&#35; Fields</h1>
+
+        <h2>What are fields&#63;</h2>
+        <p>
+            When we declare a variable outside of a method, that takes the name of <q>field</q>.
+            <br>
+            They differ from the standard variables we create in methods since they persist during all the execution of the
+            program&#47;mod.
+        </p>
+
+        <p>
+            To declare a field we can use the same syntax as with variables, just outside of methods, like in the example below
+        </p>
+
+        <pre><code class="language-cs">
+int num = 5; // this is an integer field with a value of 5
+protected override void OnGameStart()
+{
+
+}
+        </code></pre>
+
+        <p>
+            Fields act exactly as variables, with the only difference that they will persist after our method finishes executing.
+            <br>
+            See the two examples below to understand more.
+        </p>
+
+        <h3>Variable declaration</h3>
+        <pre><code class="language-cs">
+protected override void OnGameStart()
+{
+    int num = 5; // the num variable is created here and will be destroyed when the OnGameStart method finishes
+    LocalPlayer.Vitals.SetHealth(num); // sets the player health to 5
+}
+        </code></pre>
+
+        <h3>Field declaration</h3>
+        <pre><code class="language-cs">
+int num = 5; // this is an integer field with a value of 5
+protected override void OnGameStart()
+{
+    LocalPlayer.Vitals.SetHealth(num); // sets the player health to 5
+}
+        </code></pre>
+
+        <p>
+            <b>What's the difference&#63;</b>
+            <br>
+            In the first example, when <b>OnGameStart</b> method finishes executing, the <b>num</b> variable gets destroyed.
+            <br>
+            In the second example, when <b>OnGameStart</b> method finishes executing, the <b>num</b> variable still exist.
+        </p>
+            
+        <p>
+            As you can see, we can still use fields in our methods just like variables.
+        </p>
+
+        <h2>Fields accessibility types</h2>
+        <p>
+            Just like methods, fields can have different accessibility types which are mainly public and private.
+            <br>
+            We will talk about this in the <b>classes</b> chapter along with the methods accessibility types.
+        </p>
+
+        <h2>Fields in dnSpy</h2>
+        <p>
+            In the image belowe we can see the <b>&#95;walkSpeed</b> and <b>&#95;runSpeed</b> fields of the FirstPersonCharacter
+            <br>
+            we basically changed indirectly in our first mod using the <b>SetWalkSpeed</b> and <b>SetRunSpeed</b> methods.
+            
+            <img style="display: block;" src="images/dnSpy-fields.png" width="400px">
+        </p>
+
+        <p>
+            In fact, if we go look how the <b>SetWalkSpeed</b> method is written, we can see it changes the value of the
+            <b><b>&#95;walkSpeed</b></b> field by the parameter we pass to it.
+
+            <img style="display: block;" src="images/SetWalkSpeed-method.png" width="500px">
+        </p>
+
+        <h2>Summing up</h2>
+        <p>
+            Fields are necessary as in many cases we may need to use a variable in many code places.
+            <br>
+            The fact that they don't get destroyed at the end of each method allow us to use 
+            them almost everywhere and as many times as we want.
+        </p>
+    </body>
+</html>

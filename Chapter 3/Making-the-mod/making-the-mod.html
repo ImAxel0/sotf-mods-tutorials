@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Making the mod</title>
+        <link rel="stylesheet" href="../../right-frame-template.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script>
+    </head>
+    <body>
+        <h1>Making the mod</h1>
+
+        <h2>Creating the mod project</h2>
+        <p>
+            As we did in the first mod project, create a new one following the <a href="../../coding-first-mod/coding-first-mod.html#creating-the-mod-project" 
+            target="pointed-iframe">same guide</a> and open the .sln file which is the Visual Studio mod project.
+
+            <img style="display: block;" src="images/VitalsMod-creation.png" width="450px">
+        </p>
+
+        <h2>Preparing the mod</h2>
+        <p>
+            So we created and opened the mod project. We can see we have the same three predefined methods we talked about lessons before.
+        </p>
+        <pre><code class="language-cs">
+using SonsSdk;
+
+namespace VitalsMod;
+
+public class VitalsMod : SonsMod
+{
+    public VitalsMod()
+    {
+
+        //HarmonyPatchAll = true;
+    }
+
+    protected override void OnInitializeMod()
+    {
+        Config.Init();
+    }
+
+    protected override void OnSdkInitialized()
+    {
+        VitalsModUi.Create();
+    }
+
+    protected override void OnGameStart()
+    {
+    }
+}
+        </code></pre>
+
+        <p>
+            While for the first mod we used the <b>OnGameStart</b> method, this time we will use another one which let us execute our code
+            continuosly and not only one time when the game is loaded.
+            <br>
+            To do that, we need to enable that method by writing it into <q><b>public ModName()</b></q> method like so            
+        </p>
+
+        <pre><code class="language-cs">
+public VitalsMod()
+{
+    OnWorldUpdatedCallback = OnWorldUpdate;
+    //HarmonyPatchAll = true;
+}
+        </code></pre>
+
+        <p>
+            and then define it like so
+        </p>
+
+        <pre><code class="language-cs">
+public VitalsMod()
+{
+    OnWorldUpdatedCallback = OnWorldUpdate;
+    //HarmonyPatchAll = true;
+}
+
+// We added this method which is linked to the OnWorldUpdatedCallback above
+public static void OnWorldUpdate()
+{
+
+}
+        </code></pre>
+
+        <h2>The <q>OnWorldUpdatedCallback</q>method</h2> 
+        <p>
+            This method gets executed only when you are loaded into a savegame, and it's called as many times as your fps at every second.
+            <br>This means that if you are doing 80fps in game, the code inside the curly braces will get executed 80 times per second.
+            <br>This is needed for something we want to always stay the same while we are playing, like maintaining the health always to 100&#37;,
+            and that's exactly what we are gonna do now.
+        </p>
+
+        <p>
+            To do that, as we have seen in UnityExplorer before, we need to get a reference of the <b>LocalPlayer</b>. 
+            <br>If you remember for the first mod to use it we needed to reference the game dll which contains informations about the player,
+            and that is <b>Sons.dll</b>.
+            <br>So we have to do the same as before, right clicking on <b>Dependancies</b> in the Solution Explorer 
+            and hitting <b>Add Project Reference...</b> then browse to the game folder&#47;&#95;RedLoader&#47;Game and select <b>Sons.dll</b>.
+            <br>If you have any doubt just refer to the 
+            <a href="../../coding-first-mod/coding-first-mod.html#adding-dll-reference" target="pointed-iframe">first mod guide</a>.
+        </p>
+
+        <h2>Coding the mod</h2>
+        <p>
+            Now that we have set up our <b>OnWorldUpdate</b> method and added the needed dll reference to access the player &#40;<b>LocalPlayer</b> in code&#41;
+            we can start typing the actual mod code.
+        </p>
+
+        <p>
+            Like we did in the first mod, to get a reference to the player we need to write <q>LocalPlayer</q> inside the method.
+            <br>Then, using dots, we can chain up to what we want. In this case, we want to get the <b>SetHealth</b> and <b>SetStamina</b> methods, in order
+            to change the player health and stamina values.
+            <br>If you remember from the UnityExplorer but also dnSpy study we did before, these 2 methods are into the <b>Vitals</b> entry unlike
+            the walk and run speed which are into <b>FirstPersonCharacter</b>.
+        </p>
+
+        <p>
+            So to get them we will write it like so:
+        </p>
+
+        <pre><code class="language-cs">
+public static void OnWorldUpdate()
+{
+    LocalPlayer.Vitals.SetHealth(50);
+    LocalPlayer.Vitals.SetStamina(10);
+}
+        </code></pre>
+
+        <p>
+            and we are done! Our mod is ready to be used. As we said before, this is tied to our FPS, so if we are doing 80fps in game, our health will
+            be set to 50 eighteen times per second.
+            <br>
+            Now build it like we did in the first mod using <b>Build</b>, then <b>Build Solution</b> in the upper bar of Visual Studio. 
+            <br>
+            Run the game and while you are playing you will notice your stamina will always be at 10 and your health at 50 &#40;but you will still
+            probably die if something does more than 50 damage to you&#41;.
+        </p>
+
+        <div class="bottom-buttons">
+            <a href="../finding-what-we-need/finding-what-we-want-to-do.html" target="pointed-iframe"><button>Previous lesson</button></a>
+        </div>
+
+    </body>
+</html>

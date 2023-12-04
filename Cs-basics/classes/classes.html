@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../../right-frame-template.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script>
+    </head>
+    <body>
+        <h1>C&#35; classes</h1>
+
+        <h2>What are classes&#63;</h2>
+        <p>
+            Now that we have see different C&#35; stuff, it's time to introduce classes.
+            <br>
+            We can see a class as a container of all the previous stuff &#40;fields, methods etc.&#41;
+        </p>
+
+        <p>
+            When we created our first mod project, you may have seen that a class named PlayerSpeedMod was automatically created 
+            and that our three predefined-methods are placed into it.
+        </p>
+
+        <pre><code class="language-cs">
+using SonsSdk;
+
+namespace PlayerSpeedMod;
+
+public class PlayerSpeedMod : SonsMod // start of the PlayerSpeedMod class
+{
+    public PlayerSpeedMod()
+    {
+
+        //HarmonyPatchAll = true;
+    }
+
+    protected override void OnInitializeMod()
+    {
+        Config.Init();
+    }
+
+    protected override void OnSdkInitialized()
+    {
+        PlayerSpeedModUi.Create();
+    }
+
+    protected override void OnGameStart()
+    {
+    }
+} // end of the PlayerSpeedMod class
+        </code></pre>
+
+        <p>
+            Taking a game example in dnSpy, the <b>FirstPersonCharacter</b> is also a class, which contains all the different methods
+            &#40;e.g <b>SetWalkSpeed</b> and <b>SetRunSpeed</b>&#41; 
+            <br>
+            and all the different fields &#40;e.g <b>&#95;walkSpeed</b> and <b>&#95;runSpeed</b>&#41; we used to create our first mod. 
+
+            <img style="display: block;" src="images/FpCharacter-class.png">
+        </p>
+
+        <p>
+            Since the mods we are making at this point are pretty simple, we don't need to create other classes. 
+            <br>
+            But if we need to make something bigger, then they are pretty much a must to organize the code.
+            <br>
+            We can take my <a href="https://sotf-mods.com/mods/imaxel/axel's-mod-menu">Mod menu</a> as an example below.
+
+            <img style="display: block;" src="images/ModMenu-classes.png" width="200px">
+        </p>
+
+        <p>
+            As you can see I have used multiple .cs files, each corresponding to a different class with a specific purpose.
+        </p>
+
+        <h2>Accessibility of methods and fields between classes</h2>
+        <p>
+            As we talked in the <b>methods</b> and <b>fields</b> lessons before, we have different accessibility types we can assign to them.
+            <br>
+            Those are public, private, protected and internal for <b>methods</b> and public or private for <b>fields</b>.
+        </p>
+
+        <h3>Methods accessibility types</h3>
+        <p>
+            <ul>
+                <li>
+                    <b>public</b>: a method with an accessibility type of public means that we can also access &#40;and so call&#41; that method from other classes
+                </li>
+                <li>
+                    <b>private</b>: a method with an accessibility type of private means that we can access &#40;and so call&#41; that method only from within the same class
+                </li>
+                <li>
+                    <b>protected</b>: a method with an accessibility type of protected means that we can access &#40;and so call&#41; that method only from within the same class or in class that is inherited from that class
+                </li>
+                <li>
+                    <b>internal</b>: a method with an accessibility type of internal means that we can access &#40;and so call&#41; that method only from within it's own assembly
+                </li>
+            </ul>
+            If the last two doesn't make any sense it's fine, since we almost never need to use them anyway to make a mod.
+        </p>
+
+        <pre><code class="language-cs">
+public class PlayerSpeedMod : SonsMod
+{
+    protected override void OnGameStart()
+    {
+        AnotherClass.PublicMethod(); // OK, PublicMethod() is a public method and can be accessed from the PlayerSpeedMod class
+        AnotherClass.PrivateMethod(); // NOT OK, PrivateMethod() is a private method and can't be accessed from the PlayerSpeedMod class
+    }
+}
+
+public class AnotherClass
+{
+    public static void PublicMethod()
+    {
+
+    }
+
+    private static void PrivateMethod()
+    {
+
+    }
+}
+        </code></pre>
+
+        <h3>Fields accessibility types</h3>
+        <p>
+            <ul>
+                <li>
+                    <b>public</b>: the field can be accessed also from other classes
+                </li>
+                <li>
+                    <b>private</b>: the field can be accessed only from within the same class
+                </li>
+            </ul>
+        </p>
+
+        <pre><code class="language-cs">
+public class PlayerSpeedMod : SonsMod
+{
+    protected override void OnGameStart()
+    {
+        AnotherClass.PublicNum = 2; // OK, PublicNum is a public field and can be accessed from the PlayerSpeedMod class
+        AnotherClass.privateNum = 2; // NOT OK, privateNum is a private field and can't be accessed from the PlayerSpeedMod class
+    }
+}
+
+public class AnotherClass // AnotherClass can be in the same .cs file, but normally you would put it in a separate one called AnotherClass.cs
+{
+    public static int PublicNum = 5; // declaring a public field
+    private static int privateNum = 5; // declaring a private field
+}
+        </code></pre>
+
+        <p>
+            You will have probably noticed that our methods and fields in <b>AnotherClass</b> are declared as <b>static</b>.
+            <br>
+            This is needed when you want to access them directly from another class or inside a static method like we did.
+            <br>
+            In fact, almost all my mods uses the static keyword when declaring a field or a method.
+        </p>
+
+        <p>
+            One thing that also needs to be mentioned is that a method declared without any accessibility type will default to <b>private</b> and so it won't be accessible
+            from another class if not declared like <b>public</b>. 
+            <br>
+            Along with that, you may have noticed classes also have accessibility type, but we can almost always use the public one for these mods.
+        </p>
+
+        <h2>Summing up</h2>
+        <p>
+            Classes are here to keep our code organized and allows to separate sections of code with different purposes.
+            <br>
+            Since we are still making some pretty small mods, you probably won't need to create other classes for now.
+        </p>
+    </body>
+</html>

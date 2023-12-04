@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../../right-frame-template.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script>
+    </head>
+    <body>
+        <h1>Summing up mod structure using the first mod example</h1>
+
+        <h2>Understanding the mod structure</h2>
+        <p>
+            So now that we learned a bit of C&#35; we can understand the structure of the first mod we made.
+            <br>
+            Here is the code we wrote:
+        </p>
+        
+        <pre><code class="language-cs">
+public class PlayerSpeedMod : SonsMod
+{
+    public PlayerSpeedMod()
+    {
+
+        //HarmonyPatchAll = true;
+    }
+
+    protected override void OnInitializeMod()
+    {
+        Config.Init();
+    }
+
+    protected override void OnSdkInitialized()
+    {
+        PlayerSpeedModUi.Create();
+    }
+
+    protected override void OnGameStart()
+    {
+        LocalPlayer.FpCharacter.SetWalkSpeed(10);
+        LocalPlayer.FpCharacter.SetRunSpeed(20);
+    }
+}
+        </code></pre>
+
+        <p>
+            As we can see, the RedLoader mod template has automatically created a class for us named <q>PlayerSpeedMod</q>
+            and ours three predefined-methods. 
+            <br>
+            We then wrote our mod code inside the <b>OnGameStart</b> method where we basically accessed the <b>LocalPlayer</b>
+            class, then the <b>FpCharacter</b> class, to reach the <b>SetWalkSpeed</b> and <b>SetRunSpeed</b> methods, to which
+            we passed a numeric value.
+            
+            <img style="display: block;" src="images/FirstMod-Structure.png">
+        </p>
+
+    </body>
+</html>

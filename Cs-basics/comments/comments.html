@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../../right-frame-template.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script>
+    </head>
+    <body>
+        <h1>C&#35; Comments</h1>
+
+        <h2>What are comments and what are they used for&#63;</h2>
+        <p>
+            <b>Comments</b> are the most basic thing in programming, they are used to keep track of what
+            something do and so explain what a piece of code do.
+            <br>Writing a comment in code is the most simple stuff to do. You just write two slash
+            <b>&#47;&#47;</b> like so and the row after them will be a comment where you can write your text.
+        </p>
+
+        <pre><code class="language-cs">
+protected override void OnGameStart()
+{
+    // this is a comment text
+}
+        </code></pre>
+
+        <h2>Multi&#45;line comments</h2>
+        <p>
+            If you want to do a multi-line comment you have to follow a different syntax.
+            <br>The start of the comment is declared as a slash and asterisk <b>&#47;&#42;</b>, while
+            the end of it with an asterisk and a slash <b>&#42;&#47;</b> &#40;basically the opposite&#41;
+        </p>
+
+        <pre><code class="language-cs">
+protected override void OnGameStart()
+{
+    // this is a comment text
+
+    /*
+        This is
+        a multi-line
+        comment
+    */
+}        
+        </code></pre>
+
+        <h3>Example</h3>
+        
+        <pre><code class="language-cs">
+// this method gets executed right before gaining player control            
+protected override void OnGameStart()
+{
+    // here I write what I want to do
+}
+        </code></pre>
+    </body>
+</html>

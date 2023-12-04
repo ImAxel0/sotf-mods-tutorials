@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../../right-frame-template.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script>
+    </head>
+    <body>
+        <h1>C&#35; variables</h1>
+
+        <h2>What is a variable&#63;</h2>
+        <p>
+            A variable is basically a container which stores a value. This value can be of different types, going from numbers,
+            text and many others.
+            <br>To declare &#40;create&#41; a variable all we need to do is typing:
+            <ul>
+                <li>It's <b>type</b></li>
+                <li>It's <b>name</b></li>
+                <li>It's <b>initial value</b> &#40;not always required&#41;</li>
+            </ul>
+        </p>
+
+        <h2>Variable types</h2>
+        <p>
+            Here is a list of different variable types you will surely use when making a mod:
+        </p>
+
+        <pre><code class="language-cs">
+int x = 5;
+float y = 2.5f;
+bool b = true;
+string str = "Hello";
+        </code></pre>
+
+        <p>
+            As you can see we have four different variable <b>types</b> highlighted in orange, 
+            each one followed by it's <b>name</b> &#40;x, y, b, str&#41;
+            <br> and it's <b>value</b>.
+        </p>
+
+        <h3><span style="color: orange;">Int</span> type</h3>
+        <p>
+            <b>int</b> stands for integer, this means that this variable will store an integer number
+            like 2, 10, 999999 etc.
+        </p>
+
+        <h3><span style="color: orange;">Float</span> type</h3>
+        <p>
+            <b>float</b> stands for decimal number, this means that this variable will store a decimal number
+            like 2,5 or 7,2 etc. The actual value always needs an <q>f</q> after it.
+        </p>
+
+        <h3><span style="color: orange;">Bool</span> type</h3>
+        <p>
+            <b>bool</b> stands for boolean, it's a variable which can store either 1 &#40;true&#41;
+            or 0 &#40;false&#41;. This is used a lot in cases when you need to toggle something on or off.
+            <br>
+            The available value is either true or false.
+        </p>
+
+        <h3><span style="color: orange;">String</span> type</h3>
+        <p>
+            <b>string</b> basically stands for text, it's a variable which stores text like the one you are reading. The actual text always need to be put inside
+            double quotes &#34;
+        </p>
+
+        <h2>Variables default values</h2>
+        <p>
+            If we don't give a value to a declared variable, it will default to a predefined value.
+            <ul>
+                <li>
+                    <b>int</b> will default to 0
+                </li>
+                <li>
+                    <b>float</b> will default to 0
+                </li>
+                <li>
+                    <b>bool</b> will default to false
+                </li>
+                <li>
+                    <b>string</b> must need a default value which can also be an empty string like &#34;&#34;
+                </li>
+            </ul>
+        </p>
+</html>

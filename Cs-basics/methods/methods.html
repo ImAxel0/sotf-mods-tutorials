@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../../right-frame-template.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script>
+    </head>
+    <body>
+        <h1>C&#35; Methods</h1>
+
+        <h2>What are methods&#63;</h2>
+        <p>
+            In the lessons before we always talked about those methods &#40;and the 3 predefined ones&#41;, but we never explained what they are or atleast
+            how to read&#47;write them.
+            <br>
+            Methods are basically functions, <q>containers of code</q> which we can call &#40;execute&#41; whenever we need.
+        </p>
+
+        <p>
+            To declare a method we need to follow a certain syntax which is the following:
+            <ul>
+                <li>
+                    The method <b>accessibility</b>: can either be public, private, protected or internal &#40;there may be others but we aren't interested for these mods&#41;
+                </li>
+                <li>
+                    The <b>return type</b> of the method, because every method can return a value of the defined variable type
+                </li>
+                <li>
+                    The <b>method name</b>, which we use to call &#40;execute&#41; it
+                </li>
+                <li>
+                    &#91;optional&#93; The method <b>parameter&#47;s</b>
+                </li>
+            </ul>
+        </p>
+
+        <pre><code class="language-cs">
+// declaring a method of public accessibility, with a return type of void and "MyMethod" as name
+public void MyMethod()
+{
+
+}
+        </code></pre>
+
+        <h2>Methods accessibility types</h2>
+        <p>
+            As said before we have mainly four accessibility types which are public, private, protected and internal.
+            <br>
+            We will talk about accessibility in the <b>classes</b> lesson since we need to understand something more to get it.
+        </p>
+
+        <h2>Methods return type</h2>
+        <p>
+            Each method can, and you hear it right, <b>can</b>, not must, return a value of the defined type.
+            <br>
+            In the example below "MyMethod" return an <b>int</b> value which is equal to 5;
+        </p>
+
+        <pre><code class="language-cs">
+// declaring a method of public accessibility, with a return type of int and "MyMethod" as name
+public int MyMethod()
+{
+    return 5; // the int value the method returns
+}
+        </code></pre>
+
+        <h3>Other examples</h3>
+        <pre><code class="language-cs">
+// declaring a method of public accessibility, with a return type of bool and "MyMethod" as name            
+public bool MyMethod()
+{
+    return true; // returning a boolean
+}
+        </code></pre>
+
+        <pre><code class="language-cs">
+// declaring a method of public accessibility, with a return type of string and "MyMethod" as name            
+public string MyMethod()
+{
+    return "Hello"; // returning a string
+}
+        </code></pre>
+
+        <p>
+            As said before, a method <b>can</b> and not must return a value. This means we have a special type which is called
+            <b>void</b>.
+            <br>
+            A method with a return type of <b>void</b> simply means that it returns nothing and it just executes the code inside the curly braces.
+        </p>
+
+        <pre><code class="language-cs">
+// declaring a method of public accessibility, with a return type of void and "MyMethod" as name            
+public void MyMethod()
+{
+    // do the stuff in here
+}
+        </code></pre>
+
+        <p>
+            On the other side, if we define a return type which is not <b>void</b>, we must use the <q>return</q> statement with the
+            appropriate value type.
+        </p>
+
+        <h2>How to call a method&#63;</h2>
+        <p>
+            Calling a method is very simple.
+            <br>
+            To do it we need to write the method name, followed by &#40;&#41;, inside another method.
+        </p>
+
+        <pre><code class="language-cs">
+public void SetPlayerHealth()
+{
+    LocalPlayer.Vitals.SetHealth(50);
+}
+
+protected override void OnGameStart()
+{
+    SetPlayerHealth(); // calling the method above
+}
+        </code></pre>
+
+        <p>
+            In the example above, when we load into a game and gain player control, our <b>OnGameStart</b> method will automatically
+            be executed as we have seen in the first mod tutorial. 
+            <br>
+            This means that our <q>SetPlayerHealth&#40;&#41;;</q> line will also be executed and the method will be called, changing the player health to 50.
+        </p>
+
+        <p>
+            Summing up, we can say we use methods to jump onto different sections of code, so we can keep it organized and
+            understandable.
+        </p>
+
+        <h2>Passing parameters to methods</h2>
+        <p>
+            <b>What does this mean&#63;</b> It means we can pass values &#40;or variables&#41; when calling our methods.
+            <br>
+            This makes them much more flexible as we can pass different values for each method.
+        </p>
+
+        <pre><code class="language-cs">
+public void SetHealth(int value)
+{
+    LocalPlayer.Vitals.SetHealth(value);
+}
+
+public void SetStamina(int value)
+{
+    LocalPlayer.Vitals.SetStamina(value);
+}
+
+protected override void OnGameStart()
+{
+    SetHealth(50);
+    SetStamina(10);
+}
+        </code></pre>
+
+        <p>
+            In the above example we made a first method called <q>SetHealth</q> which takes an <b>int</b> parameter
+            and another method called <q>SetStamina</q> which takes another <b>int</b> parameter.
+        </p>
+
+        <p>
+            When we boot into the game, our <q>SetHealth</q> method will be called first, passing the value 50 which will set the player health to it.
+            <br>
+            After that the <q>SetStamina</q> method will be called, passing the value 10 which will set the player stamina to it.
+        </p>
+
+        <p>
+            We can also pass multiple parameters in the same method as seen in the example below:
+        </p>
+
+        <pre><code class="language-cs">
+public void SetHealthAndStamina(int firstValue, int secondValue)
+{
+    LocalPlayer.Vitals.SetHealth(firstValue);
+    LocalPlayer.Vitals.SetStamina(secondValue);
+}
+
+protected override void OnGameStart()
+{
+    SetHealthAndStamina(50, 10);
+}
+        </code></pre>
+
+        <h2>Methods returning a value</h2>
+        <p>
+            We have said before that methods <b>can</b> return a value of the defined type.
+            <br>
+            So we will take a method returning an <b>int</b> as an example below.
+        </p>
+
+        <pre><code class="language-cs">
+public int GetHealthValue()
+{
+    return LocalPlayer.Vitals.GetHealth();
+}
+
+protected override void OnGameStart()
+{
+    int returnedValue = SetHealth();
+    LocalPlayer.Vitals.SetHealth(returnedValue);
+}
+        </code></pre>
+
+        <p>
+            When our <b>OnGameStart</b> method is executed, the <q>GetHealthValue</q> method is called and will return the
+            current player health, which will be stored inside the <b>returnedValue</b> integer variable.
+            <br>
+            After that, the <b>returnedValue</b> int variable is used to set the player health to what the <q>GetHealthValue</q>
+            method return before.
+        </p>
+
+        <h2>Summing up</h2>
+        <p>
+            As you have seen, methods are one fundamental of these mods, and you will need to use them 100&#37; of the time.
+        </p>
+    </body>
+</html>

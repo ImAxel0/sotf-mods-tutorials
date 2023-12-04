@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Remaking the mod in UE</title>
+        <link rel="stylesheet" href="../right-frame-template.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script>
+    </head>
+    <body>
+        <h1>Remaking first mod in UnityExplorer</h1>
+
+        <h2>Brief explanation</h2>
+        <p>
+            In the previous lesson we have made our first mod just by using these two lines of code.
+        </p>
+
+        <pre><code class="language-cs">
+LocalPlayer.FpCharacter.SetWalkSpeed(10);
+LocalPlayer.FpCharacter.SetRunSpeed(20);
+        </code></pre>
+
+        <p>
+            You are now probably wondering where these two lines comes from and how did I know i have to write those words.
+            <br>This is where <b>UnityExplorer</b> (but also dnSpy) will greatly help in seeing what we can do and how to do it.
+            <br>This time, instead of coding the mod, we will set the player walk and run speed in game using UnityExplorer.
+            <br>If you haven't installed it before, refer to <a href="../installing-programs/installing-programs.html">Installing
+                must have programs.
+            </a>
+        </p>
+
+        <h2>Using UnityExplorer to remake the mod</h2>
+        <p>
+            Now that you have <b>UnityExplorer</b> installed, it's time to launch the game and load into a savegame
+            &#40;preferably a new one to not mess with your normal stuff&#41;
+            <br>When you gain player control, press F7 to bring up UnityExplorer on screen.
+
+            <img style="display: block;" src="images/UE-SceneView.png" width="300px">
+
+            You will see a top bar menu and another window. At the top of the window switch to the <b>Object Search</b> tab, 
+            <br>then in the <b>Class filter</b> we need to type <q><b>LocalPlayer</b></q> as we did in our coded mod to get a reference of it.
+
+            <img style="display: block;" src="images/UE-ObjectView.png" width="300px">
+
+            After that, click on one of the results and you will be presented with all the stuff which has to do with it.
+            <br>If you remember, in our code we wrote <q>LocalPlayer.FpCharacter</q>. This was needed as the <q>SetWalkSpeed</q> and 
+            <q>SetRunSpeed</q> methods are tied to the FirstPersonCharacter &#40;<b>FpCharacter</b> in code&#41;.
+            <br>So we basically need to chain things together using dots to reach what we want.
+            
+            <img style="display: block;" src="images/UE-LocalPlayer.png" width="600px">
+
+            Returning to our newly opened UnityExplorer window with LocalPlayer stuff, we can scroll down to search the
+            <q>FpCharacter</q>, click <b>Inspect</b> and we will now see all <b>FpCharacter</b> tied stuff in a new window.
+
+            <img style="display: block;" src="images/UE-FpCharacter.png" width="600px">
+
+            If we scroll down to the <q>S</q> we can se our <q>SetWalkSpeed</q> and <q>SetRunSpeed</q> methods we used in our code before.
+            <br>To change the corresponding value, click on <b>Evaluate</b> and enter the values accordingly.
+            <br>To execute each method, click on the <b>Evaluate</b> button, then close UnityExplorer with F7.
+
+            <img style="display: block;" src="images/UE-SettingMethods.png" width="600px">
+
+            You can now see the player moves faster, and you can test it with different values to see that it works.
+            <br>Note that these are run-time changes, and won't be saved after restarting the game, unlike a coded mod &#40;but be careful that adding
+            items or spawning something in the world then saving will persist&#41;.
+        </p>
+
+        <h2>What we learned</h2>
+        <p>
+            As you have seen, <b>UnityExplorer</b> is a really powerfull tool that can greetly help in mods making, allowing us to test things while
+            in game and changing how the game behave.
+        </p>
+
+        <div class="bottom-buttons">
+            <a href="../coding-first-mod/coding-first-mod.html" target="pointed-iframe"><button>Previous lesson</button></a>
+            <a href="../Chapter 3/dnSpy-usage/dnSpy-usage.html" target="pointed-iframe"><button>Next lesson</button></a>
+        </div>
+
+    </body>
+</html>
