@@ -191,7 +191,8 @@ public static class Config
              EInputKey.numpad4, // Set default input key
              "Toggle Buff Time", // //Set name displayed in mod menu settings
              "The key that toggles the buff timer."); //Set description shown on hovering mouse over displayed name
-        ToggleKey.Notify(ExampleMod2.ExampleCode); // On key pressed notifies your code to be triggered
+        ToggleKey.Notify(ExampleMod2.ExampleCode); // On key pressed notifies your code to be triggered. 
+        // This is an alternative to using "Input.GetKeyDown(Config.ToggleKey.Value)" on Update to call the ExampleCode method
                                                    
         // This config entry can be used to create a toggle keybind that you can change to other keys
         ToggleKey2 = Category.CreateKeybindEntry(
