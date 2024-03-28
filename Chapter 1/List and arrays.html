@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../lesson.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <link rel="icon" href="../images/GitHub-logo-black.png">
+    <title>List and arrays</title>
+</head>
+<body>
+
+    <header>
+        <a href="/"><h2 class="main-title">SOTF Mods Tutorials</h2></a>
+        <nav>
+            <a href="https://sotf-mods.com/mods" target="_blank">SOTF Mods</a>
+            <a href="https://discord.gg/sotf" target="_blank">SOTF Discord</a>
+            <a href="https://github.com/ToniMacaroni/RedLoader" target="_blank">RedLoader</a>
+        </nav>      
+      </header>
+
+      <main>
+        <div class="main-content">
+          <div class="lesson-title">
+            <h2>1.5 - C# List and arrays</h2>
+          </div>
+  
+          <hr>
+  
+          <div class="lesson-content">
+            <div class="lesson-section">
+              <h3>What are Lists&#63;</h3>
+            </div>
+            <p>
+                <b>Lists</b> are basically containers of variables. They can containe multiple values, as long
+                as they are of the same defined type.
+            </p>
+    
+            <pre><code class="language-cs">
+List<int> numbers = new() { 1, 2, 3, 4, 5 }; // declaring a list of type int named "numbers"            
+            </code></pre>
+    
+            <pre><code class="language-cs">
+// another way to organize the code for readability   
+List<int> numbers = new() { 
+    1, 2, 3, 4, 5 
+};       
+            </code></pre>
+    
+            <p>
+                In the above example, we have basically declared five <b>int</b> variables, which are contained inside
+                the <b>numbers</b> list.
+                <br>
+                Lists are very useful and the game also uses them a lot. 
+                <br>
+                They can keep the code more clean by not having to
+                declare multiple variables, or group some which have the same usage.
+            </p>
+            
+            <p>
+                Taking a Sons of the Forest list example, the <b>ItemData</b> list as we can see both in code
+                and dnSpy &#40;but also UnityExplorer&#41; contains all the the informations about each game item
+                &#40;e.g ID, name etc.&#41;.
+            </p>
+    
+            <pre><code class="language-cs">
+protected override void OnGameStart()
+{
+    ItemDatabaseManager._instance._itemDataList; // this list contains the data for each game item
+}
+            </code></pre>
+    
+            <img style="display: block;" src="images/ItemData-list.png" width="600px">
+    
+            <div class="lesson-section">
+                <h3>What are Arrays&#63;</h3>
+            </div>
+            <p>
+                <b>Arrays</b> are similar to Lists, with the difference that we can't change their size after creating them.
+            </p>
+    
+            <pre><code class="language-cs">
+protected override void OnGameStart()
+{
+    int[] array = { 1, 2, 3, 4, 5 }; // declaring an array of type int with 5 values
+}
+            </code></pre>
+    
+            <p>
+                I won't explain more of them as I nearly never need to use them for mods unlike Lists.
+            </p>
+
+          </div>
+  
+          <div class="lesson-buttons">
+            <div class="prev-lesson">
+              <a href="../Chapter 1/Loop types.html">
+                <button>Previous lesson</button>
+              </a>
+            </div>
+            <div class="next-lesson">
+              <a href="Methods.html">
+                <button>Next lesson</button>
+              </a>
+            </div>
+          </div>
+  
+        </div>
+      </main>
+    
+</body>
+</html>

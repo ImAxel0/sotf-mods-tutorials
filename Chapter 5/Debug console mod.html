@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../lesson.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <link rel="icon" href="../images/GitHub-logo-black.png">
+    <title>Debug console mod example</title>
+</head>
+<body>
+    
+    <header>
+        <a href="/"><h2 class="main-title">SOTF Mods Tutorials</h2></a>
+        <nav>
+            <a href="https://sotf-mods.com/mods" target="_blank">SOTF Mods</a>
+            <a href="https://discord.gg/sotf" target="_blank">SOTF Discord</a>
+            <a href="https://github.com/ToniMacaroni/RedLoader" target="_blank">RedLoader</a>
+        </nav>      
+      </header>
+
+      <main>
+        <div class="main-content">
+          <div class="lesson-title">
+            <h2>5.1 - Adding DebugConsole commands</h2>
+          </div>
+  
+          <hr>
+  
+          <div class="lesson-content">
+            <div class="lesson-section">
+              <h3>How to add our DebugConsole commands to the game&#63;</h3>
+            </div>
+            <p>
+                Below we have our newly created mod using RedModManager.
+            </p>
+
+            <pre><code class="language-cs">
+using SonsSdk;
+
+namespace DebugConsoleCommand;
+
+public class DebugConsoleCommand : SonsMod
+{
+    public DebugConsoleCommand()
+    {
+
+        //HarmonyPatchAll = true;
+    }
+
+    protected override void OnInitializeMod()
+    {
+        Config.Init();
+    }
+
+    protected override void OnSdkInitialized()
+    {
+        DebugConsoleCommandUi.Create();
+    }
+
+    protected override void OnGameStart()
+    {
+    }
+}
+            </code></pre>
+    
+            <p>
+                To add a DebugConsole command to the in game console &#40;the one you open with F1&#41; we only need to write
+                one method with a special attribute above it.
+            </p>
+    
+            <pre><code class="language-cs">
+[DebugCommand("commandname")]
+private void MyCustomCommand()
+{
+    // what we want to do when entering our command will be typed here
+}
+            </code></pre>
+    
+            <p>
+                <ul>
+                    <li>
+                        <b>commandname</b> is the name we will need to type in the game console and that will be displayed in it.
+                    </li>
+                    <li>
+                        <b>MyCustomCommand</b> is the name of the method and can be whatever you want.
+                    </li>
+                </ul>
+                
+                If we go in a game and open the DebugConsole with F1, our custom made command should be here. 
+                Upon typing the command name and pressing enter, all the code code in between the curly braces will be executed.
+            </p>
+    
+            <h2>How to pass parameters to the method</h2>
+    
+            <p>
+                If we want the command to be toggleable like most of the default ones which accept <q>on</q> or <q>off</q> as a parameter,
+                we need to pass a <b>string</b> parameter.
+                
+                To do so we write <b>string</b> followed by it's name in the method parameter like so:
+            </p>
+    
+            <pre><code class="language-cs">
+[DebugCommand("commandname")]
+private void MyCustomCommand(string onoff)
+{
+    // here we can use the onoff parameter to change how the command behave
+}
+            </code></pre>
+    
+            <p>
+                The <b>off</b> string parameter is all the text we write after the command name, so if we write <q>commandname hello</q>
+                in the game DebugConsole, <q>hello</q> will be our <b>onoff</b> parameter.
+            </p>
+    
+            <p>
+                To make it more clear let's restore the <q>aighostplayer</q> command which was removed from the game:
+            </p>
+    
+            <pre><code class="language-cs">
+// to use the VailActorManager.SetGhostPlayer() method we need to add Sons.Ai.Vail as dll reference
+
+[DebugCommand("aighostplayer")]
+private void AiGhostPlayer(string onoff)
+{
+    if (bool.TryParse(onoff, out var value))
+    {
+        VailActorManager.SetGhostPlayer(value); // will set invisibility from enemies
+        SonsTools.ShowMessage($"Ran command <color=green>aighostplayer {value}</color>"); // used to print the bottom left message on screen
+        return;
+    }
+    SonsTools.ShowMessage("<color=red>Invalid syntax</color>, usage: aighostplayer <true|false>"); // used to print the bottom left message on screen
+}
+            </code></pre>
+    
+            <p>
+                Here we used a <b>bool.TryParse</b> to convert the <b>onoff</b> string parameter to a boolean representation.
+                
+                When we use <b>bool.TryParse</b>, we need to pass the string as the first parameter and output the result as the second parameter
+                if it successfully retrieved a boolean from the string we passed.
+                
+                The string that we can pass is either <q>true</q> or <q>false</q>.
+                
+                If the syntax is right, the VailActorManager.SetGhostPlayer(value); line will be
+                executed, else nothing will happen.
+            </p>
+    
+            <p>
+                Try copying the above code and do <q>aighostplayer true</q> in the game DebugConsole and you will see all enemies will ignore you.
+                
+                To turn it off do <q>aighostplayer false</q>.
+            </p>
+
+          </div>
+  
+        </div>
+      </main>
+
+</body>
+</html>

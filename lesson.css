@@ -1,0 +1,50 @@
+* {
+    text-shadow: none;
+}
+
+code {
+    font-size: 0.9rem;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0px 20px 100px 20px;
+    position: sticky;
+    top: 0;
+}
+
+.main-content {
+    background-color: rgb(26, 26, 26);
+    margin: 0px 400px;
+    padding: 5px 25px;
+    border-radius: 5px;
+    border: 1px solid rgb(48, 48, 48)
+}
+
+.lesson-content p {
+    color: rgb(224, 224, 224);
+    text-align: justify;
+}
+
+.lesson-content img {
+    margin: 10px 0px;
+}
+
+.lesson-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin: 25px;
+}
+
+.prev-lesson button {
+    background-color: tomato;
+    font-weight: bold;
+}
+
+.next-lesson button {
+    background-color: greenyellow;
+    color: black;
+    font-weight: bold;
+}

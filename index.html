@@ -1,35 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>SOTF-Mods-Tutorials</title>
-        <link rel="stylesheet" href="style.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-        <script>hljs.highlightAll();</script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="images/GitHub-logo-black.png">
+    <title>SOTF Mods Tutorials</title>
 
-        <!-- Google tag (gtag.js) -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-D8WHK5PT4T"></script>
-        <script>
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-        
-          gtag('config', 'G-D8WHK5PT4T');
-        </script>        
-    </head>
-    <body>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-D8WHK5PT4T"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+    
+        gtag('config', 'G-D8WHK5PT4T');
+    </script> 
+</head>
+<body>
 
-      <div class="main-container">
-        <div class="left-panel">
-          <iframe src="left-frame.html" width="100%" height="99%">          
-          </iframe>
+    <header>
+        <a href="/"><h2 class="main-title">SOTF Mods Tutorials</h2></a>
+        <nav>
+            <a href="https://sotf-mods.com/mods" target="_blank">SOTF Mods</a>
+            <a href="https://discord.gg/sotf" target="_blank">SOTF Discord</a>
+            <a href="https://github.com/ToniMacaroni/RedLoader" target="_blank">RedLoader</a>
+            <a href="RedNodeEditor/RedNodeEditor.html" target="_blank">RedNodeEditor</a>
+            <a href="https://github.com/ImAxel0/sotf-mods-tutorials" target="_blank">
+                <img src="images/GitHub-logo.png" alt="GitHub logo" width="25px">
+            </a>
+        </nav>      
+    </header>
+
+    <main>
+        <div class="central-div">
+            <h1 class="main-text">Learn how to make mods for <span class="sotf-title">Sons of the Forest</span></h1>
+            <p>Here you will learn how to make awesome mods for the game using RedLoader, the mod loader made specifically for the game</p>
+            <a href="lessons.html">
+                <button><b>Get Started</b></button>
+            </a>
         </div>
+            
+        <div class="divider">           
+            <div>
+                <h2>What will you learn</h2>
+                <hr>
+                <ul>
+                    <li>The basics of C# language</li>
+                    <li>How to install RedLoader and associated things required to make mods</li>
+                    <li>How to install and setup an integrated development environment (IDE) like Visual Studio to code the mods</li>
+                    <li>How to create a new mod project and first steps on how a mod is made</li>
+                    <li>How to code, test and build a mod</li>
+                </ul>
+            </div>
+            <div>
+                <iframe src="https://sotf-mods.com/mods" frameborder="0" width="800" height="400"></iframe>
+            </div>
+        </div>
+    </main>
 
-        <div class="right-panel">
-          <iframe id="frame-view" src="getting-started/getting-started.html" width="100%" height="99%" name="pointed-iframe">
-          </iframe>
-        </div>     
-      </div>
+    <footer>
+        <p>SOTF Mods Tutorials © 2024</p>
+        <p>Site developed by Axel</p>
+    </footer>
 
-    </body>
+</body>
 </html>

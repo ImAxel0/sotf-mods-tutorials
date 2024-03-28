@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../lesson.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <link rel="icon" href="../images/GitHub-logo-black.png">
+    <title>Custom sounds mod example</title>
+</head>
+<body>
+    
+    <header>
+        <a href="/"><h2 class="main-title">SOTF Mods Tutorials</h2></a>
+        <nav>
+            <a href="https://sotf-mods.com/mods" target="_blank">SOTF Mods</a>
+            <a href="https://discord.gg/sotf" target="_blank">SOTF Discord</a>
+            <a href="https://github.com/ToniMacaroni/RedLoader" target="_blank">RedLoader</a>
+        </nav>      
+      </header>
+
+      <main>
+        <div class="main-content">
+          <div class="lesson-title">
+            <h2>5.2 - Playing a custom sound in game</h2>
+          </div>
+  
+          <hr>
+  
+          <div class="lesson-content">
+
+            <p>
+                This is our freshly created mod project:
+            </p>
+    
+            <pre><code class="language-cs">
+using SonsSdk;
+
+namespace SoundMod;
+
+public class SoundMod : SonsMod
+{
+    public SoundMod()
+    {
+
+        //HarmonyPatchAll = true;
+    }
+
+    protected override void OnInitializeMod()
+    {
+        Config.Init();
+    }
+
+    protected override void OnSdkInitialized()
+    {
+        SoundModUi.Create();
+    }
+
+    protected override void OnGameStart()
+    {
+    }
+}
+            </code></pre>
+
+            <div class="lesson-section">
+              <h3>Registering sounds</h3>
+            </div>
+            <p>
+                To play a soundfile in the game, we first need to register it.
+                <br>
+                This needs to be done inside the <b>OnSdkInitialized</b> method following the code below:
+    
+                <ul>
+                    <li>
+                        <b>First parameter:</b> it's the identifier of the sound as a string. This is what we will use to specify what sound to play
+                    </li>
+                    <li>
+                        <b>Second parameter:</b> it's the path to the sound file we want to register with that ID
+                    </li>
+                </ul>
+            </p>
+
+            <pre><code class="language-cs">
+protected override void OnSdkInitialized()
+{
+    SoundTools.RegisterSound("soundId", "pathOfTheFile");
+}
+            </code></pre>
+    
+            <p>
+                If we want the sound to be 3Dimensional, and so hearing it at a certain game position, we need to pass true as the third method parameter: 
+            </p>
+    
+            <pre><code class="language-cs">
+protected override void OnSdkInitialized()
+{
+    SoundTools.RegisterSound("soundId", "pathOfTheFile", true);
+}
+            </code></pre>
+    
+            <p>
+                Assuming we have our sound file in the <b>Mods</b> folder we will register it like so:
+            </p>
+    
+            <pre><code class="language-cs">
+protected override void OnSdkInitialized()
+{
+    SoundTools.RegisterSound("soundId", Path.Combine(LoaderEnvironment.ModsDirectory, "soundfile.mp3"));
+}
+            </code></pre>
+
+            <div class="lesson-section">
+                <h3>Playing the sound</h3>
+            </div>
+            <p>
+                To play the registered sounds we just need to do like so wherever we want in code:
+            </p>
+    
+            <pre><code class="language-cs">
+protected override void OnGameStart()
+{
+    SoundTools.PlaySound("soundId");
+}
+            </code></pre>
+    
+            <p>
+                If the sound was registered as 3Dimensional we will also need to pass a position as Vector3 and and 
+                the maximum distance at which it can be heard:
+            </p>
+    
+            <pre><code class="language-cs">
+protected override void OnGameStart()
+{
+    // playing a sound a position 0 audible up to 10m distance
+    SoundTools.PlaySound("soundId", new Vector3(0, 0, 0), 10);
+}
+            </code></pre>
+
+          </div>
+  
+        </div>
+      </main>
+
+</body>
+</html>

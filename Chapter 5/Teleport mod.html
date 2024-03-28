@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../lesson.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <link rel="icon" href="../images/GitHub-logo-black.png">
+    <title>Teleport mod example</title>
+</head>
+<body>
+    
+    <header>
+        <a href="/"><h2 class="main-title">SOTF Mods Tutorials</h2></a>
+        <nav>
+            <a href="https://sotf-mods.com/mods" target="_blank">SOTF Mods</a>
+            <a href="https://discord.gg/sotf" target="_blank">SOTF Discord</a>
+            <a href="https://github.com/ToniMacaroni/RedLoader" target="_blank">RedLoader</a>
+        </nav>      
+      </header>
+
+      <main>
+        <div class="main-content">
+          <div class="lesson-title">
+            <h2>5.3 - Teleporting the Player</h2>
+          </div>
+  
+          <hr>
+  
+          <div class="lesson-content">
+            <div class="lesson-section">
+              <h3>How do we teleport to a specified position&#63;</h3>
+            </div>
+            <p>
+                Teleporting is one of the most simple thing to do.
+                
+                We just need to get the <b>Transform</b> of the <b>LocalPlayer</b> and set it's new position as <b>Vector3</b>.
+            </p>
+    
+            <p>
+                To do that we need to add two dll references to the mod project:
+                <ul>
+                    <li>
+                        <b>Sons.dll</b> to access the LocalPlayer
+                    </li>
+                    <li>
+                        <b>UnityEngine.dll</b> to use the Vector3 type
+                    </li>
+                </ul>
+            </p>
+    
+            <p>
+                In the example below we are teleporting the player to x:4 y:716 z:-459, which correspond to the top of the mountain:
+            </p>
+    
+            <pre><code class="language-cs">
+using SonsSdk;
+using UnityEngine;
+using TheForest.Utils;
+
+namespace TeleportMod;
+
+public class TeleportMod : SonsMod
+{
+    protected override void OnGameStart()
+    {
+        LocalPlayer.Transform.position = new Vector3(4, 716, -459);
+    }
+}
+            </code></pre>
+
+          </div>
+  
+        </div>
+      </main>
+
+</body>
+</html>

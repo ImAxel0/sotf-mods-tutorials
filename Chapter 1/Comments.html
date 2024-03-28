@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../lesson.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <link rel="icon" href="../images/GitHub-logo-black.png">
+    <title>Comments</title>
+</head>
+<body>
+
+    <header>
+        <a href="/"><h2 class="main-title">SOTF Mods Tutorials</h2></a>
+        <nav>
+            <a href="https://sotf-mods.com/mods" target="_blank">SOTF Mods</a>
+            <a href="https://discord.gg/sotf" target="_blank">SOTF Discord</a>
+            <a href="https://github.com/ToniMacaroni/RedLoader" target="_blank">RedLoader</a>
+        </nav>      
+      </header>
+
+      <main>
+        <div class="main-content">
+          <div class="lesson-title">
+            <h2>1.1 - C# Comments</h2>
+          </div>
+  
+          <hr>
+  
+          <div class="lesson-content">
+            <div class="lesson-section">
+              <h3>What are comments and what are they used for&#63;</h3>
+            </div>
+            <p>
+                <b>Comments</b> are the most basic feature in programming, they are used to keep track of what
+                something do and so explain what a piece of code do.
+                <br>Writing a comment in code is the most simple stuff to do. You just write two slash
+                <b>&#47;&#47;</b> like so and the row after them will be a comment where you can write your text.
+            </p>
+
+            <pre><code class="language-cs">
+protected override void OnGameStart()
+{
+    // this is a comment text
+}
+            </code></pre>
+  
+            <div class="lesson-section">
+                <h3>Multi&#45;line comments</h3>
+            </div>
+            <p>
+                If you want to do a multi-line comment you have to follow a different syntax.
+                <br>The start of the comment is declared as a slash and asterisk <b>&#47;&#42;</b>, while
+                the end of it with an asterisk and a slash <b>&#42;&#47;</b> &#40;basically the opposite&#41;
+            </p>
+    
+            <pre><code class="language-cs">
+protected override void OnGameStart()
+{
+    // this is a comment text
+
+    /*
+        This is
+        a multi-line
+        comment
+    */
+}        
+            </code></pre>
+
+            <div class="lesson-content">
+                <div class="lesson-section">
+                  <h3>Example</h3>
+                </div>
+                <pre><code class="language-cs">
+// this method gets executed right before gaining player control            
+protected override void OnGameStart()
+{
+    // here I write what I want to do
+}
+                </code></pre>
+
+          </div>
+  
+          <div class="lesson-buttons">
+            <div class="prev-lesson">
+              <a href="../Chapter 0/Must have programs and tools.html">
+                <button>Previous lesson</button>
+              </a>
+            </div>
+            <div class="next-lesson">
+              <a href="Variables.html">
+                <button>Next lesson</button>
+              </a>
+            </div>
+          </div>
+  
+        </div>
+      </main>
+
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../lesson.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <link rel="icon" href="../images/GitHub-logo-black.png">
+    <title>Predefined methods</title>
+</head>
+<body>
+    
+    <header>
+        <a href="/"><h2 class="main-title">SOTF Mods Tutorials</h2></a>
+        <nav>
+            <a href="https://sotf-mods.com/mods" target="_blank">SOTF Mods</a>
+            <a href="https://discord.gg/sotf" target="_blank">SOTF Discord</a>
+            <a href="https://github.com/ToniMacaroni/RedLoader" target="_blank">RedLoader</a>
+        </nav>      
+      </header>
+
+      <main>
+        <div class="main-content">
+          <div class="lesson-title">
+            <h2>2.1 - Predefined methods</h2>
+          </div>
+  
+          <hr>
+  
+          <div class="lesson-content">
+            <div class="lesson-section">
+              <h3>What are those predefined methods&#63;</h3>
+            </div>
+            <p>Predefined methods like seen below are methods already included in RedLoader mod template which we will actually use to make our first mod.</p>
+        
+            <pre><code class="language-cs">
+protected override void OnInitializeMod()
+{
+    // Do your early mod initialization which doesn't involve game or sdk references here
+    Config.Init();
+}
+
+protected override void OnSdkInitialized()
+{
+    // Do your mod initialization which involves game or sdk references here
+    // This is for stuff like UI creation, event registration etc.
+    ModExampleUi.Create();
+}
+
+protected override void OnGameStart()
+{
+    // This is called once the player spawns in the world and gains control.
+}    
+            </code></pre>
+
+            <div class="lesson-section">
+                <h3><q>OnInitializeMod</q> method</h3>
+            </div>
+            <p>
+                This method gets executed right after starting the game, before it loads into the main menu, and so probably during the RedLoader splashscreen.
+                If you played with mods before, you may know almost every mod comes with a <q><b>.cfg</b></q> file located in the <b>Userdata</b> folder with which you can set different options/settings for the mod.
+                The <b>OnInitializeMod</b> method we're talking about here, it's usually used to manage these config files for the mod (known as <q><b>.cfg</b></q> files).
+            </p>
+
+            <div class="lesson-section">
+                <h3><q>OnSdkInitialized</q> method</h3>
+            </div>
+            <p>
+                This method gets executed after the <b>OnInitializeMod</b> method and right before loading into the main menu.
+                Stuff that needs to get executed only once and doesn't really involve gameplay should be done in here. 
+                Examples are the creation of an UI using <a href="https://tonimacaroni.github.io/RedLoader/api/SUI.html">SUI</a>,
+                or <a href="https://tonimacaroni.github.io/RedLoader/articles/sounds.html?q=sound">registering custom sounds</a>.
+            </p>
+
+
+            <div class="lesson-section">
+                <h3><q>OnGameStart</q> method</h3>
+            </div>
+            <p>
+                This method gets executed right before we finished loading into a savegame and we gain player control.
+                Since at this point we are basically loaded into the game, here we can do stuff with the player and world.
+                Note that this method get executed whenever we load into a savegame, so exiting to main menu and loading into the 
+                same or another savegame will trigger it again unlike the two methods above which are executed only once.
+                This will also be the method we'll use to make our first mod.
+            </p>
+
+          </div>
+  
+          <div class="lesson-buttons">
+            <div class="prev-lesson">
+              <a href="../Chapter 1/Summing up with mod example.html">
+                <button>Previous lesson</button>
+              </a>
+            </div>
+            <div class="next-lesson">
+              <a href="Coding first mod.html">
+                <button>Next lesson</button>
+              </a>
+            </div>
+          </div>
+  
+        </div>
+      </main>
+
+</body>
+</html>

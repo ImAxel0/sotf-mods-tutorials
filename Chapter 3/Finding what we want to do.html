@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../lesson.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <link rel="icon" href="../images/GitHub-logo-black.png">
+    <title>Finding what we want to do</title>
+</head>
+<body>
+    
+    <header>
+        <a href="/"><h2 class="main-title">SOTF Mods Tutorials</h2></a>
+        <nav>
+            <a href="https://sotf-mods.com/mods" target="_blank">SOTF Mods</a>
+            <a href="https://discord.gg/sotf" target="_blank">SOTF Discord</a>
+            <a href="https://github.com/ToniMacaroni/RedLoader" target="_blank">RedLoader</a>
+        </nav>      
+      </header>
+
+      <main>
+        <div class="main-content">
+          <div class="lesson-title">
+            <h2>3.2 - Finding what we want to do</h2>
+          </div>
+  
+          <hr>
+  
+          <div class="lesson-content">
+            <div class="lesson-section">
+              <h3>Looking into dnSpy for something to change</h3>
+            </div>
+            <p>
+                As we learned in the lesson before, we can look into the game code using tools like <b>dnSpy</b>.
+                So now we can develop another mod looking into it.
+                This time we are gonna change the player health, stamina etc.
+            </p>
+    
+            <p>
+                So, open up dnSpy and if not already load all the source code dll's as we did in the lesson before.
+                After that, search for the <q><b>LocalPlayer</b></q> like the last time and, unlike before, instead of selecting
+                 the <b>FirstPersonCharacter</b>, we will select the <q><b>Vitals</b></q> entry.
+    
+                <img style="display: block;" src="Images/Finding what we want to do/Vitals-entry.png" width="800px">           
+            </p>
+    
+            <p>
+                As you can see, <b>Vitals</b> contains all the stuff related to the player health, stamina, rest, fullness etc.
+                This means that if we get a reference of it, we can change all of this stuff.  
+    
+                <img style="display: block;" src="Images/Finding what we want to do/Vitals-dropdown.png" width="350px">        
+            </p>
+    
+            <p>
+                If you scroll down a bit, you will see methods like <b>SetHealth</b> or <b>SetStamina</b>.
+                
+                <img style="display: block;" src="Images/Finding what we want to do/Vitals-methods.png" width="400px">    
+            </p>
+    
+            <p>
+                Those are the ones we will use to make the next mod.
+                But before creating the mod project and start making the mod, let test the changes in game with <b>UnityExplorer</b> first,
+                so we can be sure it's what we want to do and that it will work.
+            </p>
+
+            <div class="lesson-section">
+                <h3>Testing what we want to change using UnityExplorer</h3>
+            </div>
+            <p>
+                So you can now boot the game, load into a savegame and open up UnityExplorer pressing F7.
+                Now go into the <b>Object Search</b> tab as we did with the first mod and in the <b>Class filter</b>
+                type <b>LocalPlayer</b> &#40;we could also type <b>Vitals</b> directly but let not do it for now&#41;.
+                Hit search and select one of the results &#40;they are the same&#41;.
+                Now, with the LocalPlayer window opened, scroll down or search for <q><b>Vitals</b></q>.
+                Click on <b>Inspect</b> and you will get all the Vitals related stuff.
+                If you scroll down, you will find ours <b>SetHealth</b> and <b>SetStamina</b> methods we saw in dnSpy before.
+            </p>
+    
+            <p>
+                Now, as in the first mod remake in UnityExplorer, click on evaluate on each method and type the appropriate values
+                &#40;e.g 50 for <b>SetHealth</b> and 10 for <b>SetStamina</b>&#41;.
+                 Now click evaluate on each of them to execute eachself and you will see the player health went to 50 and stamina to 10.
+    
+                <img style="display: block;" src="Images/Finding what we want to do/UE-Vitals-methods.png" width="500px">    
+            </p>
+    
+            <p>
+                Now that we have confirmed these are the methods we need and that they work fine, we can start making the mod project.
+            </p>
+
+          </div>
+  
+          <div class="lesson-buttons">
+            <div class="prev-lesson">
+              <a href="dnSpy usage.html">
+                <button>Previous lesson</button>
+              </a>
+            </div>
+            <div class="next-lesson">
+              <a href="Making the mod.html">
+                <button>Next lesson</button>
+              </a>
+            </div>
+          </div>
+  
+        </div>
+      </main>
+
+</body>
+</html>

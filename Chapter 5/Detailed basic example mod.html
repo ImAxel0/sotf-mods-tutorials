@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../lesson.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <link rel="icon" href="../images/GitHub-logo-black.png">
+    <title>Detailed basic example mod</title>
+</head>
+<body>
+    
+    <header>
+        <a href="/"><h2 class="main-title">SOTF Mods Tutorials</h2></a>
+        <nav>
+            <a href="https://sotf-mods.com/mods" target="_blank">SOTF Mods</a>
+            <a href="https://discord.gg/sotf" target="_blank">SOTF Discord</a>
+            <a href="https://github.com/ToniMacaroni/RedLoader" target="_blank">RedLoader</a>
+        </nav>      
+      </header>
+
+      <main>
+        <div class="main-content">
+          <div class="lesson-title">
+            <h2>5.5 - Detailed basic example mod (by Franky)</h2>
+          </div>
+  
+          <hr>
+  
+          <div class="lesson-content">
+            <p>
+                Below you can find a basic example mod with some options that you might find useful explained in more detail.
+                <br>
+                We have two files:
+                <ul>
+                    <li>
+                        <b>ExampleMod2.cs</b>
+                    </li>
+                    <li>
+                        <b>Config.cs</b>
+                    </li>
+                </ul>
+            </p>
+
+            <div class="lesson-section">
+              <h3>ExampleMod2.cs</h3>
+            </div>
+            <pre><code class="language-cs">
+using SonsSdk;
+using SUI;
+using TheForest.Utils; // Needed to access LocalPlayer
+using UnityEngine;
+
+namespace ExampleMod2;
+
+public class ExampleMod2 : SonsMod
+{
+    public ExampleMod2()
+    {
+
+        // Uncomment any of these if you need a method to run on a specific update loop.
+        //OnUpdateCallback = MyUpdateMethod;
+        //OnLateUpdateCallback = MyLateUpdateMethod;
+        //OnFixedUpdateCallback = MyFixedUpdateMethod;
+        //OnGUICallback = MyGUIMethod;
+
+        // Uncomment this to automatically apply harmony patches in your assembly.
+        //HarmonyPatchAll = true;
+    }
+
+    protected override void OnInitializeMod()
+    {
+        // Do your early mod initialization which doesn't involve game or sdk references here
+        Config.Init(); // Initialize your code in your Config's Init()
+    }
+
+    protected override void OnSdkInitialized()
+    {
+
+        SettingsRegistry.CreateSettings(this, null, typeof(Config)); // Creates your mods settings options
+        ExampleMod2Ui.Create(); // Initialize the code in your ModUi's Create()
+    }
+
+    protected override void OnGameStart()
+    {
+        // This is called once the player spawns in the world and gains control.
+        // Use this to initialize anything you cant do earlier because there is no player instance.
+    }
+
+    public void OnUpdate()
+    {
+        //Everything in here is called whenever the world updates, it checks on every frame
+        if (Input.GetKeyDown(Config.ToggleKey.Value)) // Checks if Config Value inputkey is pressed
+        {
+            // Executes this code if the inputkey is pressed
+            ExampleCode();
+
+        }
+        if (Input.GetKeyDown(Config.ToggleKey2.Value)) // Checks if Config Value inputkey is pressed
+        {
+            // Executes this code if the inputkey is pressed
+            ExampleCode2();
+        }
+    }
+
+    /*
+    If anywhere you want to log anything to the console, you can do so by adding this:
+    RLog.Msg("Text here");
+    Replace Text Here with the message you want displayed in the console and make sure you add it in the correct place.
+    Note: Don't add this in anything like OnUpdate, otherwise the log will be shown on every frame
+    leading to a very spammy log
+    */
+
+    /*
+    In this example code we are going to check a value for if we need to either increase it or remove it
+    Depending on that value being less or equal to 14400(in this case it being the default time for a cooking buff)
+    If it's less than or equal to 14400 we set remainingCookingBuffTime to the duration of your slider
+    In the else if statement it will check if the remainingCookingBufTime is higher than 100000
+    If that is indeed more than 100000 it will set the remainingCookingBufTime to 0, making the buff run out.
+    */
+    public static void ExampleCode()
+    {
+        // Check if the remaining buff time is less than the default time
+        if (LocalPlayer.Vitals._remainingCookingBuffTime <= 14400)
+        {
+            // Buff time is less than or equal to 14400, set time to the value chosen in your slider
+            LocalPlayer.Vitals._remainingCookingBuffTime = Config.ExampleSlider.Value;
+
+            // Using return; here so it doesnt also run the other code
+            return;
+        }
+        // Lets say you set it to 864000, but you dont want to wait until it runs out as you want another buff
+        // Check if the remaining time is higher than to 100000 
+        else if (LocalPlayer.Vitals._remainingCookingBuffTime > 100000)
+        {
+            // Remaining buff time is higher than to 100000, setting time to 0 so the buff runs out
+            LocalPlayer.Vitals._remainingCookingBuffTime = 0;
+        }
+    }
+
+    /*
+        This code is a lot simpler. It has a check in place and applies a value from your config to the player
+        Here what we are trying to do is to set the player's health to the value of your slider
+        It checks if the player exists, if not it does nothing.
+        If the player exists it will apply the value from your slider to the amount of health the player has
+    */
+    public static void ExampleCode2()
+    {
+        // Check if the player is actually in the world, otherwise there is nothing to apply the value to
+        if (!LocalPlayer.IsInWorld)
+        {
+            // If localplayer is not in world, do nothing
+            return;
+        }
+        else
+        {
+            // If localplayer is in world, apply the value from the slider to the character's health
+            LocalPlayer.Vitals.Health._currentValue = Config.ExampleSlider2.Value;
+        }
+    }
+}
+            </code></pre>
+
+            <div class="lesson-section">
+                <h3>Config.cs</h3>
+            </div>
+            <pre><code class="language-cs">
+using RedLoader;
+using RedLoader.Preferences;
+using SonsSdk;
+
+namespace ExampleMod2;
+
+public static class Config
+{
+    public static ConfigCategory Category { get; private set; }
+    
+    public static KeybindConfigEntry ToggleKey { get; private set; } // Adds keybind entry in your config named ToggleKey
+    public static KeybindConfigEntry ToggleKey2 { get; private set; } // Adds keybind entry in your config named ToggleKey2
+    public static ConfigEntry&#60;float&#62; ExampleSlider { get; private set; } // Adds configentry listening to Float value
+    public static ConfigEntry&#60;float&#62; ExampleSlider2 { get; private set; } // Adds configentry listening to Float value
+    public static ConfigEntry&#60;bool&#62; ExampleToggle { get; private set; } // Adds configentry listening to Bool value
+
+    //public static ConfigEntry&#60;bool&#62; SomeEntry { get; private set; }
+
+    public static void Init()
+    {
+        Category = ConfigSystem.CreateFileCategory("ExampleMod2", "ExampleMod2", "ExampleMod2.cfg");
+
+        // This config entry can be used to create a slider with a min and a max float value.
+        // In this example we will be using it for timer you can set upon using your toggle key.
+        ExampleSlider = Category.CreateEntry(
+            "Duration", //Set identifier
+            14400f, //Set default value in ingame seconds
+            "Duration in in-game seconds", //Set name displayed in mod menu settings
+            "Minimum is 14400 seconds (4 hours), max is 864000 seconds (10 days)"); //Set description shown on hovering mouse over displayed name
+        ExampleSlider.SetRange(14400f, 864000f); // Set the range in in-game seconds
+        // Now with this you will have a settings option named "Duration in in-game seconds"
+        // with a slider that goes from min 14400 to max 864000
+
+
+        // This config entry can be used to create a slider with a min and a max float value.
+        // In this example we will be using it for a health value you can set upon using your toggle key.
+        ExampleSlider2 = Category.CreateEntry(
+            "Health", //Set identifier
+            100f, //Set default value
+            "Set Health", //Set name displayed in mod menu settings
+            "Range from Minimum 1 and maximum 200"); //Set description shown on hovering mouse over displayed name
+        ExampleSlider2.SetRange(1f, 200f); // Set the minimum and maximum range
+        // Now with this you will have a settings option named "Set Health"
+        // with a slider that goes from min 1 to max 200
+
+        // This config entry can be used to create a toggle keybing that you can change to other keys
+        ToggleKey = Category.CreateKeybindEntry(
+                "toggle_key", // Set identifier
+                EInputKey.numpad4, // Set default input key
+                "Toggle Buff Time", // //Set name displayed in mod menu settings
+                "The key that toggles the buff timer."); //Set description shown on hovering mouse over displayed name
+        ToggleKey.Notify(ExampleMod2.ExampleCode); // On key pressed notifies your code to be triggered. 
+        // This is an alternative to using "Input.GetKeyDown(Config.ToggleKey.Value)" on Update to call the ExampleCode method
+                                                    
+        // This config entry can be used to create a toggle keybind that you can change to other keys
+        ToggleKey2 = Category.CreateKeybindEntry(
+                "toggle_key2", // Set identifier
+                EInputKey.numpad5, // Set default input key
+                "Set Health Toggle Key", // Set name displayed in mod menu settings
+                "The key that toggles the Health code."); // Set description shown on hovering mouse over displayed name
+        ToggleKey2.Notify(ExampleMod2.ExampleCode2); // On key pressed notifies your code to be triggered
+
+        // This config entry can be used to create a checkbox that is either enabled or disabled
+        ExampleToggle = Category.CreateEntry(
+            "example_toggle", // Set identifier
+            false, // Set default value
+            "Enable/Disable something", // Set name displayed in mod menu settings
+            "If enabled ... if disabled ..."); // Set description shown on hovering mouse over displayed name
+        /* 
+        You can use this in your main code file like this:
+
+        public static void YourMethod()
+        if (Config.ExampleToggle.Value)
+        { 
+            Your code if enabled 
+        }
+        else
+        {
+                Your code if disabled 
+        }
+        */
+    }
+}
+            </code></pre>
+
+          </div>
+  
+        </div>
+      </main>
+
+</body>
+</html>

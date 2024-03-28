@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../lesson.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <link rel="icon" href="../images/GitHub-logo-black.png">
+    <title>Summing up with mod example</title>
+</head>
+<body>
+    
+    <header>
+        <a href="/"><h2 class="main-title">SOTF Mods Tutorials</h2></a>
+        <nav>
+            <a href="https://sotf-mods.com/mods" target="_blank">SOTF Mods</a>
+            <a href="https://discord.gg/sotf" target="_blank">SOTF Discord</a>
+            <a href="https://github.com/ToniMacaroni/RedLoader" target="_blank">RedLoader</a>
+        </nav>      
+      </header>
+
+      <main>
+        <div class="main-content">
+          <div class="lesson-title">
+            <h2>1.9 - Summing up mod structure</h2>
+          </div>
+  
+          <hr>
+  
+          <div class="lesson-content">
+            <div class="lesson-section">
+              <h3>Understanding the mod structure</h3>
+            </div>
+            <p>
+                So now that we learned a bit of C&#35; we can understand the mod structure.
+                <br>
+                Here is the code:
+            </p>
+            
+            <pre><code class="language-cs">
+public class PlayerSpeedMod : SonsMod
+{
+    public PlayerSpeedMod()
+    {
+
+        //HarmonyPatchAll = true;
+    }
+
+    protected override void OnInitializeMod()
+    {
+        Config.Init();
+    }
+
+    protected override void OnSdkInitialized()
+    {
+        PlayerSpeedModUi.Create();
+    }
+
+    protected override void OnGameStart()
+    {
+        LocalPlayer.FpCharacter.SetWalkSpeed(10);
+        LocalPlayer.FpCharacter.SetRunSpeed(20);
+    }
+}
+            </code></pre>
+    
+            <p>
+                As we can see, the RedLoader mod template has automatically created a class for us named <q>PlayerSpeedMod</q>
+                and three predefined-methods. 
+                <br>
+                We then wrote our mod code inside the <b>OnGameStart</b> method where we basically accessed the <b>LocalPlayer</b>
+                class, then the <b>FpCharacter</b> class, to reach the <b>SetWalkSpeed</b> and <b>SetRunSpeed</b> methods, to which
+                we passed a numeric value.
+                
+                <img style="display: block;" src="Images/FirstMod-Structure.png">
+            </p>
+
+          </div>
+  
+          <div class="lesson-buttons">
+            <div class="prev-lesson">
+              <a href="Classes.html">
+                <button>Previous lesson</button>
+              </a>
+            </div>
+            <div class="next-lesson">
+              <a href="../Chapter 2/Predefined methods.html">
+                <button>Next lesson</button>
+              </a>
+            </div>
+          </div>
+  
+        </div>
+      </main>
+
+</body>
+</html>

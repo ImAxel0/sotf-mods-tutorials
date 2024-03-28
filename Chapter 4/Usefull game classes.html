@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../lesson.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <link rel="icon" href="../images/GitHub-logo-black.png">
+    <title>Usefull game classes</title>
+</head>
+<body>
+    
+    <header>
+        <a href="/"><h2 class="main-title">SOTF Mods Tutorials</h2></a>
+        <nav>
+            <a href="https://sotf-mods.com/mods" target="_blank">SOTF Mods</a>
+            <a href="https://discord.gg/sotf" target="_blank">SOTF Discord</a>
+            <a href="https://github.com/ToniMacaroni/RedLoader" target="_blank">RedLoader</a>
+        </nav>      
+      </header>
+
+      <main>
+        <div class="main-content">
+          <div class="lesson-title">
+            <h2>4.1 - Useful game classes to make mods</h2>
+          </div>
+  
+          <hr>
+  
+          <div class="lesson-content">
+            <p>
+                This chapter has the only meaning of showing different game classes that can be used to make a mod.
+                <br>
+                The dll in red next to the class is the dll which needs to be referenced in the mod project to use it.
+            </p>
+
+            <div class="lesson-section">
+              <h3>LocalPlayer <span style="color: red;">Sons.dll</span></h3>
+            </div>
+            <p>
+                It's the player class. Starting from it we have unlimited options to play with, examples are:
+                <ul>
+                    <li>
+                        control the inventory: <i>LocalPlayer.Inventory</i>
+                    </li>
+                    <li>
+                        control the first person character: <i>LocalPlayer.FpCharacter</i>
+                    </li>
+                    <li>
+                        control the player stats: <i>LocalPlayer.Vitals</i>
+                    </li>
+                    <li>
+                        control the player camera: <i>LocalPlayer.MainCam</i> and <i>LocalPlayer.CamRotator</i>
+                    </li>
+                </ul>
+            </p>
+
+            <div class="lesson-section">
+                <h3>PlayerInventory <span style="color: red;">Sons.dll</span></h3>
+            </div>
+            <p>
+                Controls over the player inventory:
+                <ul>
+                    <li>
+                        Adding an item: <i>LocalPlayer.Inventory.AddItem(itemId, amount)</i>
+                    </li>
+                    <li>
+                        Removing an item: <i>LocalPlayer.Inventory.RemoveItem(itemId, amount)</i>
+                    </li>
+                    <li>
+                        Equpping an item: <i>LocalPlayer.Inventory.TryEquip(itemId, false)</i>
+                    </li>
+                </ul>
+            </p>
+
+            <div class="lesson-section">
+                <h3>Vitals <span style="color: red;">Sons.dll</span></h3>
+            </div>
+            <p>
+                Controls over the player stats (health, stamina etc.)
+                <ul>
+                    <li>
+                        Changing player health: <i>LocalPlayer.Vitals.SetHealth(value)</i>
+                    </li>
+                    <li>
+                        Checking if player is alive: <i>LocalPlayer.Vitals.IsAlive()</i>
+                    </li>
+                </ul>
+            </p>
+
+            <div class="lesson-section">
+                <h3>FirstPersonCharacter <span style="color: red;">Sons.dll</span></h3>
+            </div>
+            <p>
+                Controls over the player movement (speed, jump etc.)
+                <ul>
+                    <li>
+                        Changing player run speed: <i>LocalPlayer.FpCharacter.SetRunSpeed(value)</i>
+                    </li>
+                    <li>
+                        Changing the player jump force: <i>LocalPlayer.FpCharacter.SetSuperJump(multiplierValue)</i>
+                    </li>
+                    <li>
+                        Changing the player swim speed: <i>LocalPlayer.FpCharacter.SetSwimSpeed(value)</i>
+                    </li>
+                </ul>
+            </p>
+
+            <div class="lesson-section">
+                <h3>VailActorManager <span style="color: red;">Sons.Ai.Vail.dll</span></h3>
+            </div>
+            <p>
+                The class with which we can do stuff with enemies and also animals in game:
+                <ul>
+                    <li>
+                        Getting the active actors: <i>VailActorManager.GetActiveActors()</i>
+                    </li>
+                    <li>
+                        Deleting all active actors: <i>VailActorManager.ClearAll()</i>
+                    </li>
+                </ul>
+            </p>
+
+            <div class="lesson-section">
+                <h3>ItemDatabaseManager <span style="color: red;">Sons.Item.dll</span></h3>
+            </div>
+            <p>
+                Class that contains references to all the game items:
+                <ul>
+                    <li>
+                        Getting data of all the items: <i>ItemDatabaseManager.Items</i>
+                    </li>
+                    <li>
+                        Getting data of an item by ID: <i>ItemDatabaseManager.ItemById(itemId)</i>
+                    </li>
+                    <li>
+                        Getting data of an item by name: <i>ItemDatabaseManager.ItemByName(itemName)</i>
+                    </li>
+                </ul>
+            </p>
+
+            <div class="lesson-section">
+                <h3>ItemHotkeyController &#38; HotkeySaveData <span style="color: red;">Sons.dll</span></h3>
+            </div>
+            <p>
+                Controls and data of hotkeyed items.
+            </p>
+
+            <div class="lesson-section">
+                <h3>DebugConsole <span style="color: red;">Sons.dll</span></span></h3>
+            </div>
+            <p>
+                The in game DebugConsole class:
+                <ul>
+                    <li>
+                        can call all the commands the debug console has
+                    </li>
+                </ul>
+            </p>
+
+          </div>
+  
+        </div>
+      </main>
+
+</body>
+</html>

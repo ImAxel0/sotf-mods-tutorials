@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../lesson.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <link rel="icon" href="../images/GitHub-logo-black.png">
+    <title>Coding first mod</title>
+</head>
+<body>
+    
+    <header>
+        <a href="/"><h2 class="main-title">SOTF Mods Tutorials</h2></a>
+        <nav>
+            <a href="https://sotf-mods.com/mods" target="_blank">SOTF Mods</a>
+            <a href="https://discord.gg/sotf" target="_blank">SOTF Discord</a>
+            <a href="https://github.com/ToniMacaroni/RedLoader" target="_blank">RedLoader</a>
+        </nav>      
+      </header>
+
+      <main>
+        <div class="main-content">
+          <div class="lesson-title">
+            <h2>2.2 - Coding your first mod</h2>
+          </div>
+  
+          <hr>
+  
+          <div class="lesson-content">
+            <div class="lesson-section">
+              <h3>Creating the mod project</h3>
+            </div>
+            <p>
+                To create the mod project, open up RedModManager and navigate to the <b>Modding</b> tab.
+                
+                If not already, install the <b>RedLoader mod template</b> using the button on screen.               
+                Give a name to the mod like <q>PlayerSpeedMod</q> and click the <b>Create Project</b> button.
+                <img style="display: block" src="Images/Coding first mod/ModCreation.png" width="450px">
+                Choose a folder in which the mod project will be created and you will be presented with a folder like this
+                <img style="display: block" src="Images/Coding first mod/ModProjectFolder.png" width="600px">
+                Now open the .sln file and you will now have the mod project opened and ready to work with in Visual Studio.
+            </p>
+
+            <div class="lesson-section">
+                <h3>Coding the mod</h3>
+            </div>
+            <p>
+                As you can see we have our three predefined methods we talked about before plus one which we won't need right now.
+            </p>
+        
+            <pre><code class="language-cs">
+using SonsSdk;
+
+namespace PlayerSpeedMod;
+
+public class PlayerSpeedMod : SonsMod
+{
+    public PlayerSpeedMod()
+    {
+
+        //HarmonyPatchAll = true;
+    }
+
+    protected override void OnInitializeMod()
+    {
+        Config.Init();
+    }
+
+    protected override void OnSdkInitialized()
+    {
+        PlayerSpeedModUi.Create();
+    }
+
+    protected override void OnGameStart()
+    {
+    }
+}
+            </code></pre>
+            <p>
+                For this mod we will only need to use <b>OnGameStart</b> because we don't need to create/use a config file nor making an UI etc. 
+                The focus is to only change the player walk and run speed, and <b>hear hear hear...</b> you are only 2 lines of code away from it&#33;
+                But before we do that, we need to add a reference to a game dll which contains informations about the Player.
+                In this case the .dll is named <q><b>Sons.dll</b></q>. In addition to containing references about the Local Player, 
+                this one also contains many other references that will vastly expand the modding capabilities.
+                We can say it's like the main dll, and you will use it most if not all the times you make a mod.
+            </p>
+
+            <div class="lesson-section">
+                <h3>Adding a .dll reference to the mod project</h3>
+            </div>
+            <p>
+                To add a dll reference to the project head to the solution explorer &#40;on the right or left of the screen&#41;
+                and right click on <b>Dependancies</b>, then <b>Add Project Reference...</b>, click <b>Browse...</b> on bottom
+                right corner and navigate to the game path that normally is &#40;C:\Program Files (x86)\Steam\steamapps\common\Sons Of The Forest&#41;.
+                Open the <b>_RedLoader</b> folder and the <b>Game</b> folder.
+                These are all the dll's which contain informations about the game and that you can add as a reference to expand the modding capabilities.
+                
+                For now and for this mod, we will just add <q><b>Sons.dll</b></q> because it's all we need to change the player speed.
+                So select it, click on <b>Add</b> and then <b>OK</b> to confirm.
+                If you open the <b>Dependancies</b> dropdown menu in the solution explorer and then the <b>Assemblies</b> dropdown you can
+                see all the dll's which are added as a reference to the mod project.
+                If you look closely, you will see that there is also our <q><b>Sons.dll</b></q> which we added before.
+                
+                <img style="display: block;" src="Images/Coding first mod/DependanciesView.png" width="200px">            
+            </p>
+
+            <div class="lesson-section">
+                <h3>Let's write these 2 lines of code!</h3>
+            </div>
+            <p>
+                As we said before, we only need two line of code to change the Player walk and run speed, and so accomplish our mod.
+                We will change the player speed right after the savegame has been loaded, so inside the <b>OnGameStart</b> method, since it's when the Player is created
+                &#40;e.g we can't access the Player while we are in the main menu because it doesn't exist yet&#41;.
+                
+                To use the <q><b>Sons.dll</b></q> we added before inside a .cs file we need to include it adding <q><b>using Sons</b></q> at the top of the page.
+            </p>
+    
+            <pre><code class="language-cs">
+using SonsSdk;
+using Sons; // we added this line to use our referenced Sons.dll in this file
+
+namespace PlayerSpeedMod;
+
+public class PlayerSpeedMod : SonsMod
+{
+    public PlayerSpeedMod()
+    {
+
+        //HarmonyPatchAll = true;
+    }
+
+    protected override void OnInitializeMod()
+    {
+        Config.Init();
+    }
+
+    protected override void OnSdkInitialized()
+    {
+        PlayerSpeedModUi.Create();
+    }
+
+    protected override void OnGameStart()
+    {
+
+    }
+}
+            </code></pre>
+    
+            <p>
+                <p>Now, inside our <b>OnGameStart</b> method we will write the mod code which will change the player speed.
+                To change the player speed we need to reference the LocalPlayer and then the FirstPersonCharacter.
+                To do so we write <q>LocalPlayer.FpCharacter</q>.
+                Now that we have control over our FirstPersonCharacter &#40;named FpCharacter here&#41;, we can change whatever it's available about it.
+                As we said before, we want to change the player walk and run speed.
+                To do so, we place another dot after <b>FpCharacter</b> and we will see a big list of options to choose from.
+                If we scroll down to the S, we can see stuff named SetWalkSpeed and SetRunSpeed.
+                So all we need to do to change the walk speed is to write: <q>LocalPlayer.FpCharacter.SetWalkSpeed(num value)</q>.
+                For example, try writing <q>LocalPlayer.FpCharacter.SetWalkSpeed(10)</q> for the player walk speed and 
+                <q>LocalPlayer.FpCharacter.SetRunSpeed(20)</q> for the player run speed.
+            </p>
+    
+            <pre><code class="language-cs">
+protected override void OnGameStart()
+{
+    LocalPlayer.FpCharacter.SetWalkSpeed(10);
+    LocalPlayer.FpCharacter.SetRunSpeed(20);
+}
+            </code></pre>
+
+            <div class="lesson-section">
+                <h3>Building the mod</h3>
+            </div>
+            <p>
+                Congratulation, the mod is basically done! We only need to build it. 
+                To do so head on the top bar of Visual Studio and click on <b>Build</b>, then <b>Build Solution</b>. If everything went right, you will see the mod
+                dll inside the Mods folder 
+                <img style="display: block;" src="Images/Coding first mod/ModsFolder.png" width="650px">
+            </p>
+
+            <div class="lesson-section">
+                <h3>Testing the mod</h3>
+            </div>
+            <p>
+                Now launch the game and in the mods tab look if there is our PlayerSpeedMod. If so, everything went right.
+                Now load into a savegame, and right before spawning your 2 lines of code will get executed, changing the player walk speed to 10 and run speed to 20,
+                 making the player move faster!
+                <img style="display: block;" src="Images/Coding first mod/ModsTab.png" width="450px">
+            </p>
+
+          </div>
+  
+          <div class="lesson-buttons">
+            <div class="prev-lesson">
+              <a href="Predefined methods.html">
+                <button>Previous lesson</button>
+              </a>
+            </div>
+            <div class="next-lesson">
+              <a href="Remaking mod in UE.html">
+                <button>Next lesson</button>
+              </a>
+            </div>
+          </div>
+  
+        </div>
+      </main>
+
+</body>
+</html>

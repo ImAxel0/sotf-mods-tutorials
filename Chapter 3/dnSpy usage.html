@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../lesson.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <link rel="icon" href="../images/GitHub-logo-black.png">
+    <title>dnSpy usage</title>
+</head>
+<body>
+    
+    <header>
+        <a href="/"><h2 class="main-title">SOTF Mods Tutorials</h2></a>
+        <nav>
+            <a href="https://sotf-mods.com/mods" target="_blank">SOTF Mods</a>
+            <a href="https://discord.gg/sotf" target="_blank">SOTF Discord</a>
+            <a href="https://github.com/ToniMacaroni/RedLoader" target="_blank">RedLoader</a>
+        </nav>      
+      </header>
+
+      <main>
+        <div class="main-content">
+          <div class="lesson-title">
+            <h2>3.1 - dnSpy general usage</h2>
+          </div>
+  
+          <hr>
+  
+          <div class="lesson-content">
+            <div class="lesson-section">
+              <h3>What is dnSpy used for&#63;</h3>
+            </div>
+            <p>
+                <b>dnSpy</b> is a tool which let us look into the game code while it's closed, to see how it does stuff and also expand our modding capabilities.
+                With patch 07 of the game &#40;release of Dedicated servers&#41;, the source code of the game was leaked, so we can now see 
+                the game code up to that patch using tools like <b>dnSpy</b>.            
+            </p>
+    
+            <p>
+                If you haven't already downloaded dnSpy, download it from <a target="_blank" href="https://github.com/dnSpy/dnSpy">here</a> and extract
+                the zip content inside another folder.
+                To launch it, double click <b>dnSpy.exe</b>, you will see a window similar to the below.
+                
+                <img style="display: block;" src="../Chapter 0/Images/dnSpyBlank.png" width="600px">
+            </p>
+
+            <div class="lesson-section">
+                <h3>Loading the <q>game code</q> in dnSpy</h3>
+            </div>
+            <p>
+                First, we need to get the leaked source code dll's (you can ask for them in the sotf discord or find them yourself).
+                Then, on the top left of dnSpy, click on <b>File</b>, then <b>Open...</b> and browse to where the leaked source code dll's are.
+    
+                <img style="display: block;" src="Images/dnSpy usage/dnSpy-loading-assemblies.png" width="400px">
+    
+                Do CTRL&#43;A to select all of them and press <b>Open</b> at the bottom right corner to load them.
+    
+                <img style="display: block;" src="Images/dnSpy usage/Source-code-dlls.png" width="500px">
+            </p>
+            <p>          
+                Done, we have loaded the game code inside dnSpy as you can see in the image below.
+    
+                <img style="display: block;" src="Images/dnSpy usage/dnSpy-loaded-source.png" width="600px">
+            </p>
+
+            <div class="lesson-section">
+                <h3>Finding the first mod stuff</h3>
+            </div>
+            <p>
+                To make it clear how it works, lets find what we used to make the change player speed mod.
+                On the bottom you can see a searchbar and a <q><b>Search for:</b></q> filter. If not already, set it to <b>Class</b> and <b>All Files</b>.
+                Type <q><b>LocalPlayer</b></q> in the searchbox and you will see a list of results.
+                We are only interested in the first one, so double click on it to navigate to it.
+    
+                <img style="display: block;" src="Images/dnSpy usage/LocalPlayer-search.png" width="800px">
+            </p>
+    
+            <p>
+                On the left panel, expand the LocalPlayer dropdown menu and you will see a list of things related to it,
+                some self explanatory.
+    
+                <img style="display: block;" src="Images/dnSpy usage/LocalPlayer-expand.png" width="400px">
+            </p>
+    
+            <p>
+                If you scroll down a bit, you can see our <b>FpCharacter</b> we used to make our first mod.
+    
+                <img style="display: block;" src="Images/dnSpy usage/FpCharacter-entry.png" width="800px">
+            </p>
+    
+            <p>
+                Now click on it, and on the right panel click on <b>FirstPersonCharacter</b> to navigate to it.
+    
+                <img style="display: block;" src="Images/dnSpy usage/FpCharacter-property.png" width="500px">
+            </p>
+    
+            <p>
+                Expand the FirstPersonCharacter dropdown menu on the left panel as we did with the LocalPlayer and you will see all the stuff related to the
+                <b>FirstPersonCharacter</b>.
+                If you scroll down a bit, you will see ours <b>SetWalkSpeed</b> and <b>SetRunSpeed</b> methods we used before to make the mod.
+    
+                <img style="display: block;" src="Images/dnSpy usage/FpCharacter-dropdown.png" width="400px">
+            </p>
+
+            <div class="lesson-section">
+                <h3>Summing up</h3>
+            </div>
+            <p>
+                <b>dnSpy</b> as UnityExplorer is a powerfull tool which let us investigate into the game code, with the difference that we can use it while
+                the game is closed and so we can't do changes to the game. 
+                It may also act as a source of mod inspiration, since we can just look into the game code
+                and see what we can create with it. 
+                In fact, if you look widely into the <b>FirstPersonCharacter</b>, you can see there are a lot of other methods we can use to create a mod
+                other than <b>SetWalkSpeed</b> and <b>SetRunSpeed</b> &#40;e.g <b>SetSuperJump</b>&#41;.
+                Next lesson we are gonna setup a mod to change the player health and stamina.
+            </p>
+
+          </div>
+  
+          <div class="lesson-buttons">
+            <div class="prev-lesson">
+              <a href="../Chapter 2/Remaking mod in UE.html">
+                <button>Previous lesson</button>
+              </a>
+            </div>
+            <div class="next-lesson">
+              <a href="Finding what we want to do.html">
+                <button>Next lesson</button>
+              </a>
+            </div>
+          </div>
+  
+        </div>
+      </main>
+
+</body>
+</html>
