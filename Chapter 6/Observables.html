@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../lesson.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <link rel="icon" href="../images/GitHub-logo-black.png">
+    <title>SUI Observables</title>
+</head>
+<body>
+
+    <header>
+        <a href="../lessons.html"><h2 class="main-title">SOTF Mods Tutorials</h2></a>
+        <nav>
+            <a href="https://sotf-mods.com/mods" target="_blank">SOTF Mods</a>
+            <a href="https://discord.gg/sotf" target="_blank">SOTF Discord</a>
+            <a href="https://github.com/ToniMacaroni/RedLoader" target="_blank">RedLoader</a>
+        </nav>      
+      </header>
+
+      <main>
+        <div class="main-content">
+          <div class="lesson-title">
+            <h2>6.3 - SUI Observables</h2>
+          </div>
+  
+          <hr>
+  
+          <div class="lesson-content">
+            <div class="lesson-section">
+              <h3>What is an observable&#63;</h3>
+            </div>
+            <p>
+                From my experience it's a special variable type we can use to bind the value of an UI element to it, 
+                like having a slider which value is always the same as said variable, or a checkbox which value is always connected to the boolean of the observable.
+                We can also see it like a container for a variable type.
+            </p>
+
+            <p>
+                An observable ALWAYS NEED a default value, even if it's just a number or boolean.
+                To declare an observable we do it like so, giving it the type and a default value:
+            </p>
+
+            <pre><code class="language-cs">
+static Observable&#60;float&#62 floatObservable = new(1f); // an observable of type float with default value of 1f
+static Observable&#60;bool&#62 boolObservable = new(false); // an observable of type boolean with default value of false
+static Observable&#60;string&#62 stringObservable = new(""); // an observable of type string with default value of ""
+            </code></pre>
+
+            <div class="lesson-section">
+              <h3>How to use them&#63;</h3>
+            </div>
+            <p>
+              To bind the observable to an UI element we use the <b>.Bind</b> method of the UI element.
+              The observable type must be compatible with the UI element so:
+              <ul>
+                <li>Slider: Observable&#60;float&#62</li>
+                <li>Toggle: Observable&#60;bool&#62</li>
+                <li>Label: Observable&#60;string&#62</li>
+                <li>Textbox: Observable&#60;string&#62</li>
+              </ul>
+            </p>
+
+            <p>
+              Here is an example with a slider:
+            </p>
+
+            <pre><code class="language-cs">
+static Observable<float> floatObservable = new(1f); // observable of type float
+
+  public static void Create()
+  {
+      var panel = RegisterNewPanel("panel id", true).Anchor(AnchorType.MiddleCenter).Background(Color.blue, EBackground.RoundedStandard).Size(1280, 720);
+      var container = SContainer.Background(Color.green).Anchor(AnchorType.Fill)
+                          - SSlider.Text("Slider").Range(0, 100).Value(1).Bind(floatObservable); // binding the observable to the slider
+
+      panel.Add(container);
+      ChangeObservableValue();
+  }
+
+  private static void ChangeObservableValue()
+  {
+      floatObservable.Set(50); // changing the observable value, which will be reflected on the slider
+  }
+            </code></pre>
+
+            <p>
+              Note that I also needed to set the default value of the slider to 1 using <b>.Value(1f)</b> since for some reasons it
+              doesn't use the observable default value.
+            </p>
+
+            <p>
+              Looking at a game example, observables can be really helpfull.
+              Let's say we want a slider value to always be connected to the player X position.
+              We can do that using a float observable and updating it's value constantly like so:
+            </p>
+
+            <pre><code class="language-cs">
+static Observable<float> PlayerXPosition = new(1f); // crating a float observable
+
+  public static void Create()
+  {
+      var panel = RegisterNewPanel("panel id", true).Anchor(AnchorType.MiddleCenter).Background(Color.blue, EBackground.RoundedStandard).Size(1280, 720);
+      var container = SContainer.Background(Color.green).Anchor(AnchorType.Fill)
+                          - SSlider.Text("Slider").Range(Mathf.NegativeInfinity, Mathf.Infinity).Bind(PlayerXPosition); // binding the slider to the observable
+
+      panel.Add(container);
+  }
+
+  private static void Update()
+  {
+      PlayerXPosition.Set(LocalPlayer.Transform.position.x); // updating the observable value constantly
+  }
+            </code></pre>
+
+            <p>
+              Now whenever we move along the X position the value of the slider will update accordingly
+            </p>
+
+            <p>
+              We could also make the slider change the player X position using <b>.Notify</b> like so:
+            </p>
+
+            <pre><code class="language-cs">
+static Observable<float> PlayerXPosition = new(1f);
+
+  public static void Create()
+  {
+      var panel = RegisterNewPanel("panel id", true).Anchor(AnchorType.MiddleCenter).Background(Color.blue, EBackground.RoundedStandard).Size(1280, 720);
+      var container = SContainer.Background(Color.green).Anchor(AnchorType.Fill)
+                          - SSlider.Text("Slider").Range(Mathf.NegativeInfinity, Mathf.Infinity).Bind(PlayerXPosition).Notify(SetPlayerXPos); // using .Notify to call a method when the slider value is changed
+
+      panel.Add(container);
+  }
+
+  private static void SetPlayerXPos(float pos) // called when the value of the slider is changed
+  {
+      var playerPos = LocalPlayer.Transform.position;
+      LocalPlayer.Transform.position = new Vector3(pos, playerPos.y, playerPos.z);
+  }
+
+  private static void Update()
+  {
+      PlayerXPosition.Set(LocalPlayer.Transform.position.x); // updating the observable value constantly
+  }
+            </code></pre>
+
+            <p>
+              The same goes with other types like bool and string.
+            </p>
+
+          </div>
+  
+          <div class="lesson-buttons">
+            <div class="prev-lesson">
+              <a href="Options.html">
+                <button>Previous lesson</button>
+              </a>
+            </div>
+            <div class="next-lesson">
+              <a href="Creating a scrollable side panel.html">
+                <button>Next lesson</button>
+              </a>
+            </div>
+          </div>
+  
+        </div>
+      </main>
+    
+</body>
+</html>

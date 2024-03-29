@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../lesson.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <link rel="icon" href="../images/GitHub-logo-black.png">
+    <title>SUI Containers</title>
+</head>
+<body>
+
+    <header>
+        <a href="../lessons.html"><h2 class="main-title">SOTF Mods Tutorials</h2></a>
+        <nav>
+            <a href="https://sotf-mods.com/mods" target="_blank">SOTF Mods</a>
+            <a href="https://discord.gg/sotf" target="_blank">SOTF Discord</a>
+            <a href="https://github.com/ToniMacaroni/RedLoader" target="_blank">RedLoader</a>
+        </nav>      
+      </header>
+
+      <main>
+        <div class="main-content">
+          <div class="lesson-title">
+            <h2>6.2.2 - SUI Containers</h2>
+          </div>
+  
+          <hr>
+  
+          <div class="lesson-content">
+            <div class="lesson-section">
+              <h3>What's a container&#63;</h3>
+            </div>
+            <p>
+                It's like a child window of a panel.
+                In SUI it's declared as <b>SContainer</b>.
+            </p>
+
+            <p>
+                We can add one to a panel in mainly two ways:
+                <ol>
+                    <li>using the <q>-</q> sign</li>
+                    <li>using <b>.Add</b></li>
+                </ol>
+            </p>
+
+            <pre><code class="language-cs">
+// adding a container to the panel using the "-" sign (note that there is no semicolon at the end of the panel creation line)
+var panel = RegisterNewPanel("panel id", true).Anchor(AnchorType.MiddleCenter).Background(Color.blue, EBackground.RoundedStandard).Size(1280, 720)
+                            - SContainer; // adding the container to the panel using "-"
+            </code></pre>
+
+            <pre><code class="language-cs">
+// adding a container to the panel using .Add
+var panel = RegisterNewPanel("panel id", true).Anchor(AnchorType.MiddleCenter).Background(Color.blue, EBackground.RoundedStandard).Size(1280, 720);
+panel.Add(SContainer); // adding the container to the panel using .Add
+            </code></pre>
+
+            <div class="lesson-section">
+                <h3>Working with containers</h3>
+            </div>
+            <p>
+                From my experience containers behave similarly to panels. 
+                <br>
+                We can change their size, position, AnchorType, style etc. just like panels.
+            </p>
+
+            <p>
+                After adding a container to a panel and giving it a green color we get the image below
+            </p>
+
+            <pre><code class="language-cs">
+var panel = RegisterNewPanel("panel id", true).Anchor(AnchorType.MiddleCenter).Background(Color.blue, EBackground.RoundedStandard).Size(1280, 720); // creating a blue panel
+var container = SContainer.Background(Color.green); // creating a green container
+panel.Add(container); // adding the green container to the blue panel
+            </code></pre>
+
+            <img src="Images/Containers/Container in panel.png" alt="A container in a panel">
+
+            <p>
+                We can for example make it fill the panel by using the <b>.Anchor</b> property with <b>AnchorType.Fill</b> as value.
+            </p>
+
+            <div class="lesson-section">
+                <h3>The Vertical and Horizontal properties</h3>
+            </div>
+            <p>
+                <b>.Vertical</b> and <b>.Horizontal</b> are used on a container to define the layout of it's child elements.
+            </p>
+
+            <p>
+                When the container is set to <b>Horizontal</b> it's child elements will be placed horizontally from left to right into the container.
+            </p>
+
+            <pre><code class="language-cs">
+// Creating an horizontal container with three labels in it                
+var panel = RegisterNewPanel("panel id", true).Anchor(AnchorType.MiddleCenter).Background(Color.blue, EBackground.RoundedStandard).Size(1280, 720); // creating the panel
+var container = SContainer.Background(Color.green).Horizontal() // creating the container and declaring it's layout as horizontal
+                    - SLabel.Text("1").FontColor(Color.black) // adding first label to the container
+                    - SLabel.Text("2").FontColor(Color.black) // adding second label to the container
+                    - SLabel.Text("3").FontColor(Color.black); // adding third label to the container
+panel.Add(container); // adding the container to the panel
+            </code></pre>
+
+            <img src="Images/Containers/Horizontal layout.png" alt="Horizontal container">
+
+            <p>
+                When the container is set to <b>Vertical</b> it's child elements will be placed vertically from top to bottom into the container.
+            </p>
+
+            <pre><code class="language-cs">
+// Creating a vertical container with three labels in it                
+var panel = RegisterNewPanel("panel id", true).Anchor(AnchorType.MiddleCenter).Background(Color.blue, EBackground.RoundedStandard).Size(1280, 720); // creating the panel
+var container = SContainer.Background(Color.green).Vertical() // creating the container and declaring it's layout as vertical
+                    - SLabel.Text("1").FontColor(Color.black) // adding first label to the container
+                    - SLabel.Text("2").FontColor(Color.black) // adding second label to the container
+                    - SLabel.Text("3").FontColor(Color.black); // adding third label to the container
+panel.Add(container); // adding the container to the panel
+            </code></pre>
+
+            <img src="Images/Containers/Vertical layout.png" alt="Vertical container">
+
+            <div class="lesson-section">
+                <h3>The VFill and HFill properties</h3>
+            </div>
+            <p>
+                We can use <b>VFill()</b> or <b>HFill()</b> on a container to either make it fill the panel vertically or horizontally
+            </p>
+
+            <pre><code class="language-cs">
+// Creating a vertical container which fills the panel vertically and with three labels in it                
+var panel = RegisterNewPanel("panel id", true).Anchor(AnchorType.MiddleCenter).Background(Color.blue, EBackground.RoundedStandard).Size(1280, 720);
+var container = SContainer.Background(Color.green).Vertical().VFill() // creating the container with vertical layout and making it fill the panel vertically usin VFill()
+                    - SLabel.Text("1").FontColor(Color.black)
+                    - SLabel.Text("2").FontColor(Color.black)
+                    - SLabel.Text("3").FontColor(Color.black);
+panel.Add(container);
+            </code></pre>
+
+            <img src="Images/Containers/Vertical layout with VFill.png" alt="Vertical layout with VFill">
+
+            <p>
+                The same goes horizontally using HFill()
+            </p>
+
+          </div>
+  
+          <div class="lesson-buttons">
+            <div class="prev-lesson">
+              <a href="Panels.html">
+                <button>Previous lesson</button>
+              </a>
+            </div>
+            <div class="next-lesson">
+              <a href="Dividers.html">
+                <button>Next lesson</button>
+              </a>
+            </div>
+          </div>
+  
+        </div>
+      </main>
+    
+</body>
+</html>

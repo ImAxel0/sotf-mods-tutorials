@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../lesson.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <link rel="icon" href="../images/GitHub-logo-black.png">
+    <title>SUI Buttons</title>
+</head>
+<body>
+
+    <header>
+        <a href="../lessons.html"><h2 class="main-title">SOTF Mods Tutorials</h2></a>
+        <nav>
+            <a href="https://sotf-mods.com/mods" target="_blank">SOTF Mods</a>
+            <a href="https://discord.gg/sotf" target="_blank">SOTF Discord</a>
+            <a href="https://github.com/ToniMacaroni/RedLoader" target="_blank">RedLoader</a>
+        </nav>      
+      </header>
+
+      <main>
+        <div class="main-content">
+          <div class="lesson-title">
+            <h2>6.2.5 - SUI Buttons</h2>
+          </div>
+  
+          <hr>
+  
+          <div class="lesson-content">
+            <p>
+                In SUI we have two types of buttons:
+                <ol>
+                    <li><b>SButton</b>: a text button like "Single player", "Multiplayer", "Options", "Exit" of the main menu</li>
+                    <li><b>SBgButton</b>: a classic button with a colored background</li> 
+                </ol>
+            </p>
+
+            <p>
+                A button executes whatever we say it to do when it's pressed.
+            </p>
+
+            <div class="lesson-section">
+                <h3>Text buttons</h3>
+            </div>
+            <p>
+                To create one we can do like below and use <b>.Notify</b> to specify what needs to be done when pressed, by passing it a method which takes no parameters:
+            </p>
+
+            <pre><code class="language-cs">
+var panel = RegisterNewPanel("panel id", true).Anchor(AnchorType.MiddleCenter).Background(Color.blue, EBackground.RoundedStandard).Size(1280, 720);
+var container = SContainer.Background(Color.green).Anchor(AnchorType.Fill)
+                    - SButton.Text("Text Button").Notify(() => { RLog.Msg("text button pressed"); }); // adding a text button to the container which when pressed prints text in the console
+
+panel.Add(container);
+            </code></pre>
+
+            <img src="Images/Buttons/Text button.png" alt="Text button">
+
+            <div class="lesson-section">
+                <h3>Background buttons</h3>
+            </div>
+            <p>
+                To create one we can do like below, always using <b>.Notify</b> to specify what to execute when pressed:
+            </p>
+
+            <pre><code class="language-cs">
+var panel = RegisterNewPanel("panel id", true).Anchor(AnchorType.MiddleCenter).Background(Color.blue, EBackground.RoundedStandard).Size(1280, 720);
+var container = SContainer.Background(Color.green).Anchor(AnchorType.Fill)
+                    - SBgButton.Text("Text Button").FontColor(Color.black).Notify(() => { RLog.Msg("text button pressed"); }); // adding a background button to the container with a black font color
+
+panel.Add(container);
+            </code></pre>
+
+            <img src="Images/Buttons/White button.png" alt="White button">
+
+            <div class="lesson-section">
+                <h3>Passing a parameter to a button</h3>
+            </div>
+            <p>
+                To pass a parameter to the method that it's executed when the button is clicked we can do like so:
+            </p>
+
+            <pre><code class="language-cs">
+public static void Create()
+{
+    var panel = RegisterNewPanel("panel id", true).Anchor(AnchorType.MiddleCenter).Background(Color.blue, EBackground.RoundedStandard).Size(1280, 720);
+    var container = SContainer.Background(Color.green).Anchor(AnchorType.Fill)
+                        - SBgButton.Text("Text Button").Notify(() => PrintNumber(10)); // passing the 10 as the int parameter
+
+    panel.Add(container);
+}
+
+private static void PrintNumber(int number)
+{
+    RLog.Msg(number);
+}
+            </code></pre>
+
+            <p>
+                Now everytime the button is clicked it will print 10 in the console.
+            </p>
+
+            <div class="lesson-section">
+                <h3>Styling background buttons</h3>
+            </div>
+            <p>
+                The default color is white and the default background style is <b>EBackground.None</b>.
+                We can change their color with <b>.Color</b> and their style using <b>.Background</b> passing the <b>EBackground</b> enum value just like when styling panels and containers.
+            </p>
+
+          </div>
+  
+          <div class="lesson-buttons">
+            <div class="prev-lesson">
+              <a href="Labels.html">
+                <button>Previous lesson</button>
+              </a>
+            </div>
+            <div class="next-lesson">
+              <a href="Toggles.html">
+                <button>Next lesson</button>
+              </a>
+            </div>
+          </div>
+  
+        </div>
+      </main>
+    
+</body>
+</html>

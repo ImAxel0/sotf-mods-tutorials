@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../lesson.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <link rel="icon" href="../images/GitHub-logo-black.png">
+    <title>SUI Labels</title>
+</head>
+<body>
+
+    <header>
+        <a href="../lessons.html"><h2 class="main-title">SOTF Mods Tutorials</h2></a>
+        <nav>
+            <a href="https://sotf-mods.com/mods" target="_blank">SOTF Mods</a>
+            <a href="https://discord.gg/sotf" target="_blank">SOTF Discord</a>
+            <a href="https://github.com/ToniMacaroni/RedLoader" target="_blank">RedLoader</a>
+        </nav>      
+      </header>
+
+      <main>
+        <div class="main-content">
+          <div class="lesson-title">
+            <h2>6.2.4 - SUI Labels</h2>
+          </div>
+  
+          <hr>
+
+          <div class="lesson-content">
+
+            <p>
+                A label is just text which can be added to a panel or container. In SUI it's declared as <b>SLabel</b> and you can control it's size, font, color, style etc.
+            </p>
+
+            <p>To add it to a container we use the same way with other UI elements using <q>-</q> or <b>.Add</b>:</p>
+
+            <pre><code class="language-cs">
+// using "-"
+var panel = RegisterNewPanel("panel id", true).Anchor(AnchorType.MiddleCenter).Background(Color.blue, EBackground.RoundedStandard).Size(1280, 720);
+var container = SContainer.Background(Color.green).Anchor(AnchorType.Fill)
+                    - SLabel.Text("").FontColor(Color.black); // adding the label to the container and setting black font color
+
+// using .Add
+var panel = RegisterNewPanel("panel id", true).Anchor(AnchorType.MiddleCenter).Background(Color.blue, EBackground.RoundedStandard).Size(1280, 720);
+var container = SContainer.Background(Color.green).Anchor(AnchorType.Fill);
+var label = SLabel.Text("").FontColor(Color.black); // creating the label with black font color
+container.Add(label); // adding the label to the container
+
+panel.Add(container); // adding the container to the panel
+            </code></pre>
+
+            <img src="Images/Labels/Label example.png" alt="Black label in container">
+            
+            <div class="lesson-section">
+                <h3>Styling the label</h3>
+            </div>
+            <p>
+                We can further change the label appearance with some methods:
+                <ul>
+                    <li><b>.FontSize</b>: to change it's font size</li>
+                    <li><b>.FontColor</b>: to change the text color</li>
+                    <li><b>.Font</b>: to change the font</li>
+                    <li><b>.Alignment</b>: to align it on the right, on the left, on the top etc.</li>
+                </ul>
+            </p>
+
+            <pre><code class="language-cs">
+// creating a label with a font size of 128 and left aligned
+var panel = RegisterNewPanel("panel id", true).Anchor(AnchorType.MiddleCenter).Background(Color.blue, EBackground.RoundedStandard).Size(1280, 720);
+var container = SContainer.Background(Color.green).Anchor(AnchorType.Fill)
+                    - SLabel.Text("Label").FontColor(Color.black).FontSize(128).Alignment(TMPro.TextAlignmentOptions.Left);
+
+panel.Add(container);
+            </code></pre>
+
+            <img src="Images/Labels/Big label.png" alt="Big label left aligned">
+
+          </div>
+  
+          <div class="lesson-buttons">
+            <div class="prev-lesson">
+              <a href="Dividers.html">
+                <button>Previous lesson</button>
+              </a>
+            </div>
+            <div class="next-lesson">
+              <a href="Buttons.html">
+                <button>Next lesson</button>
+              </a>
+            </div>
+          </div>
+  
+        </div>
+      </main>
+    
+</body>
+</html>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../lesson.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <link rel="icon" href="../images/GitHub-logo-black.png">
+    <title>SUI Panels</title>
+</head>
+<body>
+
+    <header>
+        <a href="../lessons.html"><h2 class="main-title">SOTF Mods Tutorials</h2></a>
+        <nav>
+            <a href="https://sotf-mods.com/mods" target="_blank">SOTF Mods</a>
+            <a href="https://discord.gg/sotf" target="_blank">SOTF Discord</a>
+            <a href="https://github.com/ToniMacaroni/RedLoader" target="_blank">RedLoader</a>
+        </nav>      
+      </header>
+
+      <main>
+        <div class="main-content">
+          <div class="lesson-title">
+            <h2>6.2.1 - SUI Panels</h2>
+          </div>
+  
+          <hr>
+  
+          <div class="lesson-content">
+            <div class="lesson-section">
+              <h3>How to create a panel</h3>
+            </div>
+            <p>
+                A panel (<b>SPanel</b> in SUI) is the main window in which others UI elements are placed into.
+            </p>
+
+            <p>
+                To create a new panel we need to use the <b>RegisterNewPanel</b> method provided by the SUI class.
+                If you don't see it add <q>using SUI</q> and <q>using static SUI.SUI</q> at the top of the cs file.
+                The methods takes two parameters (three in reality)
+                <ol>
+                    <li><b>The panel id</b>: unique identifier of the panel, used to toggle it, refer to it etc. 
+                        This must be unique since two mods sharing the same id could interfere each other</li>
+                    <li><b>A boolean value</b>: used to specify if the panel should show the mouse cursor and receive input from it</li>
+                </ol>
+
+                <u>Only one panel at time should have the boolean parameter set to true, else unexpected behaviour could happen.</u>
+            </p>
+
+            <pre><code class="language-cs">
+static bool receiveInput;
+
+public static void Create()
+{
+    RegisterNewPanel("panel id", receiveInput);
+}     
+            </code></pre>
+
+            <p>
+                If you execute the code above you will see that no panel will be displayed on screen. 
+                That's because it needs more informations to being displayed. 
+                Those are:
+                <ul>
+                    <li>Anchor type</li>
+                    <li>Color</li>
+                    <li>Size or Margin</li>
+                </ul>             
+            </p>
+
+            <p>
+                Anchor defaults to <b>AnchorType.Fill</b>. If you just add a color to the panel you will see that it will expand to occupy all the screen (as the name says: fill).
+                Apparently changing the size of panel has no effect if the panel AnchorType type is set to fill, so we can try to change it to <b>AnchorType.MiddleCenter</b>
+                and then apply a color and a size to it so we get the 1280x720 blue panel below.
+            </p>
+
+            <pre><code class="language-cs">
+RegisterNewPanel("panel id", true).Anchor(AnchorType.MiddleCenter).Background(Color.blue).Size(1280, 720);                
+            </code></pre>
+
+            <img src="Images/Panels/1280x720 panel.png" alt="1280x720 panel">
+
+            <p>
+                If we leave the AnchorType as default (<b>AnchorType.Fill</b>) you can also use the <b>.Margin</b> property to give a size to the panel starting from the screen borders.
+                In the example below we have have a panel which starts 50px from the left, 50px from the right, 200px from the top and 200px from the bottom of the screen.
+            </p>
+
+            <pre><code class="language-cs">
+RegisterNewPanel("panel id", true).Background(Color.blue).Margin(50, 50, 200, 200); // AnchorType is implicitly set to fill when not specified            
+            </code></pre>
+
+            <img src="Images/Panels/Panel with margin.png" alt="Panel with margin">
+
+            <div class="lesson-section">
+                <h3>Placing the panel topleft, on the right, at the bottom etc.</h3>
+            </div>
+            <p>
+                To move the panel to another place we can always use the <b>.Anchor</b> property. 
+                We can for example move it top the top left corner of the screen like this:
+            </p>
+
+            <pre><code class="language-cs">
+RegisterNewPanel("panel id", true).Anchor(AnchorType.TopLeft).Background(Color.blue).Size(1280, 720);         
+            </code></pre>
+
+            <p>
+                But you will quickly see half of the panel is outside of the screen.
+                To fix this I personally found two ways:
+                <ul>
+                    <li>Manually adjust the position by moving the panel half size of it to the right and to the bottom</li>
+                    <li>Change the pivot of the panel</li>
+                </ul>
+            </p>
+
+            <pre><code class="language-cs">
+// fixing panel position by adjusting it's position
+RegisterNewPanel("panel id", true).Anchor(AnchorType.TopLeft).Background(Color.blue).Size(1280, 720).Position(640 /*moving right*/, -360 /*moving down*/);  
+            </code></pre>
+
+            <pre><code class="language-cs">
+// fixing panel position by changing it's pivot
+RegisterNewPanel("panel id", true).Anchor(AnchorType.TopLeft).Background(Color.blue).Pivot(0, 1); 
+            </code></pre>
+
+            <img src="Images/Panels/TopLeft panel.png" alt="Top left panel">
+
+            <div class="lesson-section">
+                <h3>Why Pivot(0, 1)?</h3>
+            </div>
+            <p>
+                We can take a look at the screen below
+            </p>
+
+            <img src="Images/Panels/Pivot points.png" alt="Pivot points">
+
+            <p>
+                As you can see 0,1 corresponds to the top left corner and that's why we set a pivot of 0,1 (x: 0, y: 1).
+                <br>
+                Try to change the panel <b>AnchorType</b> to top right and the pivot value to 1,1 and you will see the panel is correctly placed to the top right of the screen.
+            </p>
+
+            <p>
+                I will leave the list of the pivot values for each <b>AnchorType</b> below:
+            </p>
+
+            <pre><code lang="language-cs">
+AnchorType.TopLeft => (0, 1),
+AnchorType.MiddleLeft => (0, 0.5f),
+AnchorType.BottomLeft => (0, 0),
+AnchorType.TopCenter => (0.5f, 1),
+AnchorType.MiddleCenter => (0.5f, 0.5f),
+AnchorType.BottomCenter => (0.5f, 0),
+AnchorType.TopRight => (1, 1),
+AnchorType.MiddleRight => (1, 0.5f),
+AnchorType.BottomRight => (1, 0),
+            </code></pre>
+
+            <div class="lesson-section">
+                <h3>Showing / Hiding a panel</h3>
+            </div>
+            <p>
+                To show and hide a panel we have two ways:
+                <ol>
+                    <li>Using the <b>TogglePanel</b> method of the SUI class</li>
+                    <li>Using the <b>.Active</b> method on the panel itself</li>
+                </ol>
+            </p>
+
+            <pre><code class="language-cs">
+RegisterNewPanel("panel id", true).Anchor(AnchorType.TopLeft).Background(Color.blue).Pivot(0, 1);
+
+TogglePanel("panel id"); // will hide the panel if visible or show it if hidden            
+TogglePanel("panel id", false); // will hide the panel
+TogglePanel("panel id", true); // will show the panel   
+            </code></pre>
+
+            <pre><code class="language-cs">
+var panel = RegisterNewPanel("panel id", true).Anchor(AnchorType.TopLeft).Background(Color.blue).Pivot(0, 1);  
+
+panel.Active(false); // will hide the panel
+panel.Active(true); // will show the panel
+            </code></pre>
+
+            <div class="lesson-section">
+                <h3>Styling the panels</h3>
+            </div>
+            <p>
+                To change the theme of the panel we use the <b>.Background</b> property, which is also used to change the panel color as seen before.
+                There are many styles which are defined in the <b>EBackground</b> enumerator. The default one is <b>EBackground.Sons</b>, which is also the one
+                used in the examples above.
+                Others can be <b>EBackground.None</b> where the borders are straight or <b>EBackground.RoundedStandard</b> where they have some rounding:
+            </p>
+
+            <pre><code class="language-cs">
+// A panel with straight borders (EBackground.None)
+RegisterNewPanel("panel id", true).Anchor(AnchorType.MiddleCenter).Background(Color.blue, EBackground.None).Size(1280, 720);        
+            </code></pre>
+
+            <pre><code class="language-cs">
+// A panel with rounded borders (EBackground.RoundedStandard)
+RegisterNewPanel("panel id", true).Anchor(AnchorType.MiddleCenter).Background(Color.blue, EBackground.RoundedStandard).Size(1280, 720);        
+            </code></pre>
+
+          </div>
+  
+          <div class="lesson-buttons">
+            <div class="prev-lesson">
+              <a href="What is SUI.html">
+                <button>Previous lesson</button>
+              </a>
+            </div>
+            <div class="next-lesson">
+              <a href="Containers.html">
+                <button>Next lesson</button>
+              </a>
+            </div>
+          </div>
+  
+        </div>
+      </main>
+    
+</body>
+</html>

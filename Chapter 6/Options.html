@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../lesson.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <link rel="icon" href="../images/GitHub-logo-black.png">
+    <title>SUI Options</title>
+</head>
+<body>
+    
+    <header>
+        <a href="../lessons.html"><h2 class="main-title">SOTF Mods Tutorials</h2></a>
+        <nav>
+            <a href="https://sotf-mods.com/mods" target="_blank">SOTF Mods</a>
+            <a href="https://discord.gg/sotf" target="_blank">SOTF Discord</a>
+            <a href="https://github.com/ToniMacaroni/RedLoader" target="_blank">RedLoader</a>
+        </nav>      
+      </header>
+
+      <main>
+        <div class="main-content">
+          <div class="lesson-title">
+            <h2>6.2.9 - SUI Options</h2>
+          </div>
+  
+          <hr>
+  
+          <div class="lesson-content">
+            <div class="lesson-section">
+              <h3>What is options UI element&#63;</h3>
+            </div>
+            <p>
+                An options UI element is like a list where you can choose an option from it.
+                In SUI it's declared as <b>SOptions</b>.
+            </p>
+
+            <p>
+                We can add it to a panel or container as usual and we need to use the <b>.Options</b> method to specify the
+                list of available options (passing an array of strings):
+            </p>
+
+            <pre><code class="language-cs">
+static string[] options = { "Option 1", "Option 2", "Option 3" };
+
+public static void Create()
+{
+    var panel = RegisterNewPanel("panel id", true).Anchor(AnchorType.MiddleCenter).Background(Color.blue, EBackground.RoundedStandard).Size(1280, 720);
+    var container = SContainer.Background(Color.green).Anchor(AnchorType.Fill)
+                        - SOptions.Text("Options").Options(options);
+
+    panel.Add(container);
+}
+            </code></pre>       
+            
+            <img src="Images/Options/Options.png" alt="Options ui element">
+            
+            <p>
+                We can also do something when the selected option is changed using the <b>.Notify</b> method like so:
+            </p>
+
+            <pre><code class="language-cs">
+static string[] options = { "Option 1", "Option 2", "Option 3" };
+
+public static void Create()
+{
+    var panel = RegisterNewPanel("panel id", true).Anchor(AnchorType.MiddleCenter).Background(Color.blue, EBackground.RoundedStandard).Size(1280, 720);
+    var container = SContainer.Background(Color.green).Anchor(AnchorType.Fill)
+                        - SOptions.Text("Options").Options(options).Notify(PrintOption); // passing the option index of the "options" array when changing the selection
+
+    panel.Add(container);
+}
+
+private static void PrintOption(int index) // receiving the index of the last selected option
+{
+    switch (index)
+    {
+        case 0:
+            RLog.Msg("Option 1 selected");
+            break;
+        case 1:
+            RLog.Msg("Option 2 selected");
+            break;
+        case 2:
+            RLog.Msg("Option 3 selected");
+            break;
+    }
+}
+            </code></pre>  
+
+          </div>
+  
+          <div class="lesson-buttons">
+            <div class="prev-lesson">
+              <a href="Textbox.html">
+                <button>Previous lesson</button>
+              </a>
+            </div>
+            <div class="next-lesson">
+              <a href="Observables.html">
+                <button>Next lesson</button>
+              </a>
+            </div>
+          </div>
+  
+        </div>
+      </main>
+
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../lesson.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <link rel="icon" href="../images/GitHub-logo-black.png">
+    <title>SUI Textbox</title>
+</head>
+<body>
+    
+    <header>
+        <a href="../lessons.html"><h2 class="main-title">SOTF Mods Tutorials</h2></a>
+        <nav>
+            <a href="https://sotf-mods.com/mods" target="_blank">SOTF Mods</a>
+            <a href="https://discord.gg/sotf" target="_blank">SOTF Discord</a>
+            <a href="https://github.com/ToniMacaroni/RedLoader" target="_blank">RedLoader</a>
+        </nav>      
+      </header>
+
+      <main>
+        <div class="main-content">
+          <div class="lesson-title">
+            <h2>6.2.8 - SUI Textbox</h2>
+          </div>
+  
+          <hr>
+  
+          <div class="lesson-content">
+            <div class="lesson-section">
+              <h3>What is a Textbox&#63;</h3>
+            </div>
+            <p>
+                It's a box field where you can type. In SUI it's defined as <b>STextbox</b>.
+            </p>
+
+            <p>
+                We can add it to a panel or container as usual:
+            </p>
+
+            <pre><code class="language-cs">
+var panel = RegisterNewPanel("panel id", true).Anchor(AnchorType.MiddleCenter).Background(Color.blue, EBackground.RoundedStandard).Size(1280, 720);
+var container = SContainer.Background(Color.green).Anchor(AnchorType.Fill)
+                    - STextbox.Text("Label"); // adding a textbox to the container
+
+panel.Add(container);
+            </code></pre>
+
+            <img src="Images/Textbox/Textbox.png" alt="Textbox in container">
+
+            <p>
+                We can also use <b>.Notify</b> to call a method which will receive the content of the textbox as a string argument whenever the content of it changes:
+            </p>
+
+            <pre><code class="language-cs">
+public static void Create()
+{
+    var panel = RegisterNewPanel("panel id", true).Anchor(AnchorType.MiddleCenter).Background(Color.blue, EBackground.RoundedStandard).Size(1280, 720);
+    var container = SContainer.Background(Color.green).Anchor(AnchorType.Fill)
+                        - STextbox.Text("Label").Notify(ReceiveText); // calling "ReceiveText" whenever a change is made in the textbox
+
+    panel.Add(container);
+}
+
+private static void ReceiveText(string text)
+{
+    RLog.Msg(text);
+}
+            </code></pre>
+
+            <img src="Images/Textbox/Textbox with notify.png" alt="Textbox with notify">
+
+          </div>
+  
+          <div class="lesson-buttons">
+            <div class="prev-lesson">
+              <a href="Sliders.html">
+                <button>Previous lesson</button>
+              </a>
+            </div>
+            <div class="next-lesson">
+              <a href="Options.html">
+                <button>Next lesson</button>
+              </a>
+            </div>
+          </div>
+  
+        </div>
+      </main>
+
+</body>
+</html>

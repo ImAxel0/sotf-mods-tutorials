@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../lesson.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <link rel="icon" href="../images/GitHub-logo-black.png">
+    <title>Scrollable side panel</title>
+</head>
+<body>
+
+    <header>
+        <a href="../lessons.html"><h2 class="main-title">SOTF Mods Tutorials</h2></a>
+        <nav>
+            <a href="https://sotf-mods.com/mods" target="_blank">SOTF Mods</a>
+            <a href="https://discord.gg/sotf" target="_blank">SOTF Discord</a>
+            <a href="https://github.com/ToniMacaroni/RedLoader" target="_blank">RedLoader</a>
+        </nav>      
+      </header>
+
+      <main>
+        <div class="main-content">
+          <div class="lesson-title">
+            <h2>6.4 - Creating a scrollable side panel</h2>
+          </div>
+  
+          <hr>
+  
+          <div class="lesson-content">
+            <p>
+                Here you will learn how to make a scrollable side panel like the one in my
+                <a href="https://sotf-mods.com/mods/imaxel/axel's-mod-menu" target="_blank">mod menu</a>.
+            </p>
+
+            <p>First we need to create the main panel:</p>
+            <pre><code class="language-cs">
+// creating the main panel
+var sidePanel = RegisterNewPanel("SidePanel", true) // registering the panel and enabling input listening
+                .Pivot(0, 1) // setting the right pivot for top left corner of the screen (refer to Panels lesson if you don't udnerstand)
+                .Anchor(AnchorType.TopLeft)
+                .Background(Color.red, EBackground.None) // changing panel color to red and styling it with straight borders
+                .Size(500) // specifying the width of the panel (the height can be omitted)
+                .Vertical(5, "EC") // specifying that the panel must have a vertical layout (so it's content is distributed vertically)
+                .VFill(); // specifying that the panel must fill the screen vertically
+            </code></pre>
+
+            <p>
+                Then we create an element which I don't really know what is but we will call it the scrollbar and add it to the main panel: 
+            </p>
+
+            <pre><code class="language-cs">
+// creating the scrollbar?
+var scrollBar = SDiv.FlexHeight(1);
+sidePanel.Add(scrollBar);
+            </code></pre>
+
+            <p>
+                Then we can create a scrollable container which will be inside the main panel we created before:
+            </p>
+
+            <pre><code class="language-cs">
+// creating the container which will be inside the main panel
+var settingsScroll = SScrollContainer // declaring the container as Scrollable
+.Dock(EDockType.Fill) // specifying that the container will fill all of the available space
+.Background(Color.green, EBackground.None) // styling the container
+.Size(-20, -20) // adding some padding from the main container
+.As<SScrollContainerOptions>();
+            </code></pre>
+
+            <p>
+                Lastly we can further personalize the container and add it to the "scrollbar" element:
+            </p>
+
+            <pre><code class="language-cs">
+// further personalizing the panel to make it look better
+settingsScroll.ContainerObject.Spacing(80); // the space between each vertical ui element
+settingsScroll.ContainerObject.PaddingHorizontal(10); // the space on left and right from the scrollable container towards the ui elements
+settingsScroll.ContainerObject.PaddingVertical(40); // the space on top and bottom from the scrollable container towards the ui elements
+scrollBar.Add(settingsScroll); // adding the container to the scrollbar element
+            </code></pre>
+
+            <p>
+                If we then add ui elements like toggles to the <q>settingsScroll</q> scrollable container you will see that we will be able to scroll down:
+            </p>
+
+            <pre><code class="language-cs">
+// adding ui elements to the scrollable container
+for (int i = 0; i &#60; 15; i++)
+{
+    settingsScroll.Add(SToggle.Text("Toggle"));
+}
+            </code></pre>
+
+            <img src="Images/Scrollable side panel/Scrollable side panel.png" alt="Scrollable side panel">
+
+            <p>
+                Complete code below:
+            </p>
+
+            <pre><code class="language-cs">
+// creating the main panel
+var sidePanel = RegisterNewPanel("SidePanel", true) // registering the panel and enabling input listening
+                .Pivot(0, 1) // setting the right pivot for top left corner of the screen (refer to Panels lesson if you don't udnerstand)
+                .Anchor(AnchorType.TopLeft)
+                .Background(Color.red, EBackground.None) // changin panel color to red and styling it with straight borders
+                .Size(500) // specifying the width of the panel (the height can be omitted)
+                .Vertical(5, "EC") // specifying that the panel must have a vertical layout (so it's content is distributed vertically)
+                .VFill(); // specifying that the panel must fill the screen vertically
+
+// creating the scrollbar?
+var scrollBar = SDiv.FlexHeight(1);
+sidePanel.Add(scrollBar);
+
+// creating the container which will be inside the main panel
+var settingsScroll = SScrollContainer // declaring the container as Scrollable
+.Dock(EDockType.Fill) // specifying that the container will fill all of the available space inside the main panel
+.Background(Color.green, EBackground.None) // styling the container
+.Size(-20, -20) // adding some padding from the main container
+.As<SScrollContainerOptions>();
+
+// further personalizing the panel to make it look better
+settingsScroll.ContainerObject.Spacing(80); // the space between each vertical ui element
+settingsScroll.ContainerObject.PaddingHorizontal(10); // the space on left and right of the ui elements from the scrollable container
+settingsScroll.ContainerObject.PaddingVertical(40); // the space on top and bottom of the ui elements from the scrollable container
+scrollBar.Add(settingsScroll); // adding the container to the scrollbar
+
+// adding ui elements to the scrollable container
+for (int i = 0; i &#60; 15; i++)
+{
+    settingsScroll.Add(SToggle.Text("Toggle"));
+}
+            </code></pre>
+
+            <p>
+                The same principles should apply for a centered panel etc.
+            </p>
+
+          </div>
+  
+          <div class="lesson-buttons">
+            <div class="prev-lesson">
+              <a href="Observables.html">
+                <button>Previous lesson</button>
+              </a>
+            </div>
+            <!-- <div class="next-lesson">
+              <a href="">
+                <button>Next lesson</button>
+              </a>
+            </div>
+          </div> -->
+  
+        </div>
+      </main>
+    
+</body>
+</html>

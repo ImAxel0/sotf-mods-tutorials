@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../lesson.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <link rel="icon" href="../images/GitHub-logo-black.png">
+    <title>SUI Dividers</title>
+</head>
+<body>
+    
+    <header>
+        <a href="../lessons.html"><h2 class="main-title">SOTF Mods Tutorials</h2></a>
+        <nav>
+            <a href="https://sotf-mods.com/mods" target="_blank">SOTF Mods</a>
+            <a href="https://discord.gg/sotf" target="_blank">SOTF Discord</a>
+            <a href="https://github.com/ToniMacaroni/RedLoader" target="_blank">RedLoader</a>
+        </nav>      
+      </header>
+
+      <main>
+        <div class="main-content">
+          <div class="lesson-title">
+            <h2>6.2.3 - SUI Dividers</h2>
+          </div>
+
+          <hr>
+
+          <p>
+            A divider is an horizontal line like the ones we can see in the game settings. In SUI it's declared as <b>SLabelDiver</b>.
+            They can optionally have a label on the left and are commonly used to separate sections.
+          </p>
+
+          <pre><code class="language-cs">
+var panel = RegisterNewPanel("panel id", true).Anchor(AnchorType.MiddleCenter).Background(Color.blue, EBackground.RoundedStandard).Size(1280, 720); // creating the blue panel
+var container = SContainer.Background(Color.green).Anchor(AnchorType.Fill) // creating the green container
+                    - SLabelDivider.Text("Divider"); // adding a divider to the green container
+
+panel.Add(container); // adding the green container to the blue panel
+          </code></pre>
+
+          <img src="Images/Dividers/Overflowing Divider.png" alt="Overflowing divider">
+
+          <p>If you want to remove the text, just write "" in the <b>.Text</b> method:</p>
+
+          <pre><code class="language-cs">
+var panel = RegisterNewPanel("panel id", true).Anchor(AnchorType.MiddleCenter).Background(Color.blue, EBackground.RoundedStandard).Size(1280, 720); // creating the blue panel
+var container = SContainer.Background(Color.green).Anchor(AnchorType.Fill) // creating the green container
+                    - SLabelDivider.Text(""); // adding a divider with empty text to the green container
+
+panel.Add(container); // adding the green container to the blue panel
+            </code></pre>
+
+          <img src="Images/Dividers/Overflowing Divider no text.png" alt="Overflowing divider without text">
+  
+<!--           <div class="lesson-content">
+            <div class="lesson-section">
+              <h3>What is a variable&#63;</h3>
+            </div> -->
+
+            <div class="lesson-buttons">
+              <div class="prev-lesson">
+                <a href="Containers.html">
+                  <button>Previous lesson</button>
+                </a>
+              </div>
+              <div class="next-lesson">
+                <a href="Labels.html">
+                  <button>Next lesson</button>
+                </a>
+              </div>
+            </div>
+
+          </div>
+  
+        </div>
+      </main>
+
+</body>
+</html>

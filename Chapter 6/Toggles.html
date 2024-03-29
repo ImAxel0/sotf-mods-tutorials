@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../lesson.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <link rel="icon" href="../images/GitHub-logo-black.png">
+    <title>SUI Toggles</title>
+</head>
+<body>
+
+    <header>
+        <a href="../lessons.html"><h2 class="main-title">SOTF Mods Tutorials</h2></a>
+        <nav>
+            <a href="https://sotf-mods.com/mods" target="_blank">SOTF Mods</a>
+            <a href="https://discord.gg/sotf" target="_blank">SOTF Discord</a>
+            <a href="https://github.com/ToniMacaroni/RedLoader" target="_blank">RedLoader</a>
+        </nav>      
+      </header>
+
+      <main>
+        <div class="main-content">
+          <div class="lesson-title">
+            <h2>6.2.6 - SUI Toggles</h2>
+          </div>
+  
+          <hr>
+  
+          <div class="lesson-content">
+            <div class="lesson-section">
+              <h3>What's a toggle&#63;</h3>
+            </div>
+            <p>
+                A toggle in SUI is a checkbox which can do something when it's state it's changed. It's declared as <b>SToggle</b>.
+            </p>
+
+            <p>
+                We can add it to a panel or container as usual and specify what to do when the value is changed using the <b>.Notify</b> method.
+                Keep in mind that the specified method must always accept a boolean argument.
+                In the example below when we click the checkbox it will print the state of the checkbox in the RedLoader console.
+            </p>
+
+            <pre><code class="language-cs">
+var panel = RegisterNewPanel("panel id", true).Anchor(AnchorType.MiddleCenter).Background(Color.blue, EBackground.RoundedStandard).Size(1280, 720);
+var container = SContainer.Background(Color.green).Anchor(AnchorType.Fill)
+                    - SToggle.Text("Checkbox").Notify((bool myBool) => { RLog.Msg(myBool); });
+
+panel.Add(container);
+            </code></pre>     
+            
+            <p>Another example could be like so:</p>
+
+            <pre><code class="language-cs">
+public static void Create()
+{
+    var panel = RegisterNewPanel("panel id", true).Anchor(AnchorType.MiddleCenter).Background(Color.blue, EBackground.RoundedStandard).Size(1280, 720);
+    var container = SContainer.Background(Color.green).Anchor(AnchorType.Fill)
+                        - SToggle.Text("Checkbox").Notify(SetGodMode); // calling "SetGodMode" method when the checkbox is clicked, passing the state of the checkbox as bool
+
+    panel.Add(container);
+}
+
+private static void SetGodMode(bool state)
+{
+    RLog.Msg(state);
+}
+            </code></pre>    
+
+          </div>
+  
+          <div class="lesson-buttons">
+            <div class="prev-lesson">
+              <a href="Buttons.html">
+                <button>Previous lesson</button>
+              </a>
+            </div>
+            <div class="next-lesson">
+              <a href="Sliders.html">
+                <button>Next lesson</button>
+              </a>
+            </div>
+          </div>
+  
+        </div>
+      </main>
+    
+</body>
+</html>

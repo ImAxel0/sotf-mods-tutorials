@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../lesson.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <link rel="icon" href="../images/GitHub-logo-black.png">
+    <title>SUI Sliders</title>
+</head>
+<body>
+
+    <header>
+        <a href="../lessons.html"><h2 class="main-title">SOTF Mods Tutorials</h2></a>
+        <nav>
+            <a href="https://sotf-mods.com/mods" target="_blank">SOTF Mods</a>
+            <a href="https://discord.gg/sotf" target="_blank">SOTF Discord</a>
+            <a href="https://github.com/ToniMacaroni/RedLoader" target="_blank">RedLoader</a>
+        </nav>      
+      </header>
+
+      <main>
+        <div class="main-content">
+          <div class="lesson-title">
+            <h2>6.2.7 - SUI Sliders</h2>
+          </div>
+  
+          <hr>
+  
+          <div class="lesson-content">
+            <p>
+                A slider in SUI is defined as <b>SSlider</b>.
+                To create a slider we add it to a panel or container as usual.
+            </p>
+
+            <p>
+                For it to work we need to use the <b>.Notify</b> method passing a method (action) which takes a float parameter like so:
+            </p>
+
+            <pre><code class="language-cs">
+public static void Create()
+{
+    var panel = RegisterNewPanel("panel id", true).Anchor(AnchorType.MiddleCenter).Background(Color.blue, EBackground.RoundedStandard).Size(1280, 720);
+    var container = SContainer.Background(Color.green).Anchor(AnchorType.Fill)
+                        - SSlider.Text("Slider").Notify(PrintSlider); // passing a method which takes a float parameter
+
+    panel.Add(container);
+}
+
+private static void PrintSlider(float number) // receiving the slider value
+{
+    RLog.Msg(number); // printing the slider value
+}
+            </code></pre>
+
+            <p>
+              Now, whenever we change the value of the slider, the <q>PrintSlider</q> method will be called.
+            </p>
+
+            <img src="Images/Sliders/Slider.png" alt="Slider in container">
+
+            <div class="lesson-section">
+              <h3>Setting a range</h3>
+            </div>
+            <p>
+                To set a range of min and max value of the slider we can use the <b>.Range</b> method like so:
+            </p>
+
+            <pre><code class="language-cs">
+SSlider.Text("Slider").Range(0, 10).Notify(PrintSlider); // slider with a range of 0 to 10
+            </code></pre>
+
+            <div class="lesson-section">
+                <h3>Setting decimal precision</h3>
+            </div>
+            <p>
+                To change how many numbers are after comma we can use the <b>.Format</b> method like so:
+            </p>
+
+            <pre><code class="language-cs">
+SSlider.Text("Slider").Format("0.0").Notify(PrintSlider); // slider with just one number after comma using the "Format" method
+            </code></pre>
+
+            <div class="lesson-section">
+                <h3>Setting slider step value</h3>
+            </div>
+            <p>
+                To change how much the value of the slider should change when dragging it we can use the <b>.Step</b> method like so:
+            </p>
+
+            <pre><code class="language-cs">
+SSlider.Text("Slider").Step(0.5f).Notify(PrintSlider); // number will increase by 0.5 each step
+            </code></pre>
+
+            <p>
+                We can also make it of type integer using the <b>.IntStep</b> method, so it will ignore decimals:
+            </p>
+
+            <pre><code class="language-cs">
+SSlider.Text("Slider").IntStep().Notify(PrintSlider); // skipping decimal values
+            </code></pre>
+
+          </div>
+  
+          <div class="lesson-buttons">
+            <div class="prev-lesson">
+              <a href="Toggles.html">
+                <button>Previous lesson</button>
+              </a>
+            </div>
+            <div class="next-lesson">
+              <a href="Textbox.html">
+                <button>Next lesson</button>
+              </a>
+            </div>
+          </div>
+  
+        </div>
+      </main>
+    
+</body>
+</html>
