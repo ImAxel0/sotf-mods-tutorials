@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../lesson.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <link rel="icon" href="../images/GitHub-logo-black.png">
+    <title>Making asset bundles in Unity</title>
+</head>
+<body>
+
+    <header>
+        <a href="../lessons.html"><h2 class="main-title">SOTF Mods Tutorials</h2></a>
+        <nav>
+            <a href="https://sotf-mods.com/mods" target="_blank">SOTF Mods</a>
+            <a href="https://discord.gg/sotf" target="_blank">SOTF Discord</a>
+            <a href="https://github.com/ToniMacaroni/RedLoader" target="_blank">RedLoader</a>
+        </nav>      
+      </header>
+
+      <main>
+        <div class="main-content">
+          <div class="lesson-title">
+            <h2>7.2 - Making and exporting asset bundles in Unity</h2>
+          </div>
+  
+          <hr>
+  
+          <div class="lesson-content">
+            <div class="lesson-section">
+              <h3>Installing the Unity game engine</h3>
+            </div>
+            <p>
+                First you need to download and install the <a href="https://unity.com/download" target="_blank">Unity Hub</a> application, which is basically the
+                manager from which we can install and manage Unity versions, creating Unity projects etc.
+            </p>
+
+            <p>
+                After installing it you can go <a href="https://unity.com/releases/editor/archive" target="_blank">here</a>, choose a Unity version 
+                (<i>I successfully made AssetBundles both in the 2023.2.14 and 2022.3.4 versions so I don't think it really matters if it's not too old</i>)
+                and click on the <q>Unity Hub</q> blue button which will open the Unity Hub application asking to install the Unity game engine. 
+            </p>
+
+            <p>
+                Here we deselect all but we need to check <q>Windows Build Support (IL2CPP)</q>.
+                After that we can press install and wait for the engine installation.
+            </p>
+
+            <img src="Images/Making asset bundles in Unity/Installing unity and IL2CPP support.png" alt="Unity installation">
+
+            <div class="lesson-section">
+                <h3>Creating the Unity project where we will make asset bundles</h3>
+            </div>
+            <p>
+                To create a new unity project go to the <q>Projects</q> tab on the left and press the <q>New project</q> blue button at the top left.
+            </p>
+
+            <img src="Images/Making asset bundles in Unity/Unity project creation.png" alt="Unity project creation">
+
+            <p>
+                Here we choose the <q>3D (HDRP)</q> project template as shown below, give it a name and click on the <q>Create project</q> blue button
+                at the bottom right.
+            </p>
+
+            <img src="Images/Making asset bundles in Unity/HDRP Project creation.png" alt="HDRP Project creation">
+
+            <div class="lesson-section">
+                <h3>Making asset bundles</h3>
+            </div>
+
+            <p>
+                After the project has been created we will be presented with the Unity game engine view.
+                From now on you can follow <a href="https://www.youtube.com/watch?v=eSCrZwairVw&ab_channel=ElProfesorKudo" target="_blank">this</a>
+                video which will teach you how to make asset bundles in Unity.
+            </p>
+
+            <p>
+                If you followed the video step by step you will have the AssetBundles folder with the assetbundle cube.
+                The asset bundle file is the one without any extension.
+            </p>
+
+            <div class="lesson-section">
+                <h3>Making a proper asset bundle</h3>
+            </div>
+            <p>
+                The video example was a showcase on how to make the AssetBundle file of a simple cube with no textures, but when we want to use some asset from the Unity Asset Store we have take
+                count of other steps and fixes before having the proper asset bundle file.
+            </p>
+
+            <p>
+                From now on we will create the asset bundle of a <a href="https://assetstore.unity.com/packages/3d/vehicles/land/tank-leopard2-264329" target="_blank">free tank asset</a>
+                which we can get from the Unity Asset Store.
+                <br>
+                You will have to login into it and then click the <q>Add to my Assets</q> blue button.
+            </p>
+
+            <p>
+                After that in Unity at the top we can go to <q>Window->Package Manager</q>, go into the <q>My Assets</q> tab on the left,
+                search for the tank asset and download it with the top right button.
+            </p>
+
+            <img src="Images/Making asset bundles in Unity/Downloading tank asset.png" alt="Downloading tank asset">
+
+            <p>
+                After downloading click on the import button and <b>import</b> again
+            </p>
+
+            <img src="Images/Making asset bundles in Unity/Importing tank asset.png" alt="Importing tank asset">
+
+            <p>
+                Now navigate to the tank prefab (which is just the tank itself) as shown in the image below and drag the prefab into the scene view
+            </p>
+
+            <img src="Images/Making asset bundles in Unity/Tank prefab.png" alt="Tank prefab">
+
+            <div class="lesson-section">
+                <h3>Fixing pink materials</h3>
+            </div>
+            <p>
+                As you can see our tank is all pink and doesn't have the proper textures.
+                To fix this we need to locate the materials used by the tank (commonly found inside a materials folder of the imported asset),
+                select all of them and at the top of Unity go into <q>Edit->Rendering->Materials->Convert Selected Built-in Materials to HDRP</q>
+                and click proceed.
+            </p>
+
+            <img src="Images/Making asset bundles in Unity/Fixing materials for HDRP.png" alt="Fixing materials for HDRP">
+
+            <p>If it works good, else like in this case, we need to change the materials <q>Shader</q> to <b>Standard</b> on the right panel and repeat the above process</p>
+
+            <img src="Images/Making asset bundles in Unity/Switching to standard shader.png" alt="Switching to standard shader">
+
+            <p>
+                If we did all good you will now see the tank has the right texture and is looking good
+            </p>
+
+            <img src="Images/Making asset bundles in Unity/Tank with right materials.png" alt="Tank with right materials">
+
+            <div class="lesson-section">
+                <h3>Prevent falling through the ground and adding physics to the tank</h3>
+            </div>
+            <p>
+                Since the asset didn't come with a collider and rigidbody pre-applied we need to add those two to prevent it from falling through the ground
+                and make it interact with the world.
+            </p>
+
+            <p>
+                We can do so by adding two components in the right side panel:
+                <ul>
+                    <li>Multiple MeshColliders for each tank part which has a MeshRenderer component, enabling the <q>Convex</q> checkbox</li>
+                    <li>A rigidbody component on the main tank GameObject</li>
+                </ul>
+            </p>
+
+            <p>
+                Adding rigidbody:
+            </p>
+            <img src="Images/Making asset bundles in Unity/Adding rigidbody to tank.png" alt="Adding rigidbody to tank">
+
+            <p>
+                Adding mesh colliders to all tank parts which have a MeshRenderer component:
+            </p>
+            <img src="Images/Making asset bundles in Unity/Adding mesh colliders to tank parts.png" alt="Adding mesh colliders">
+
+            <p>
+                We can now drag the tank prefab into the <q>AssetBundlesWanted</q> folder we made following the video, reset it's position to 0,0,0 and make the asset bundle the same way
+                as in the video, giving it a name and going into <q>Assets->Create Assets Bundles</q>.
+            </p>
+
+            <img src="Images/Making asset bundles in Unity/Draggin prefab into AssetBundlesWanted.png" alt="Making tank assetbundle">
+            <img src="Images/Making asset bundles in Unity/Resetting tank position.png" alt="Resetting tank position">
+
+            <p>
+                If we go in the output folder where created assetbundles goes to, we can find our tank asset bundle file
+            </p>
+
+            <img src="Images/Making asset bundles in Unity/Tank asset bundle.png" alt="Tank asset bundle file">
+
+            <p>
+                Congratulations, you made and exported your first asset bundle.
+                <br>
+                Now it's time to include it into a mod and later spawn it in game.
+            </p>
+
+          </div>
+  
+          <div class="lesson-buttons">
+            <div class="prev-lesson">
+              <a href="What is an asset bundle.html">
+                <button>Previous lesson</button>
+              </a>
+            </div>
+            <div class="next-lesson">
+              <a href="Loading and spawning asset bundles in game.html">
+                <button>Next lesson</button>
+              </a>
+            </div>
+          </div>
+  
+        </div>
+      </main>
+    
+</body>
+</html>

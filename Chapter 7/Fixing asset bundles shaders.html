@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../lesson.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <link rel="icon" href="../images/GitHub-logo-black.png">
+    <title>Fixing asset bundles shaders</title>
+</head>
+<body>
+
+    <header>
+        <a href="../lessons.html"><h2 class="main-title">SOTF Mods Tutorials</h2></a>
+        <nav>
+            <a href="https://sotf-mods.com/mods" target="_blank">SOTF Mods</a>
+            <a href="https://discord.gg/sotf" target="_blank">SOTF Discord</a>
+            <a href="https://github.com/ToniMacaroni/RedLoader" target="_blank">RedLoader</a>
+        </nav>      
+      </header>
+
+      <main>
+        <div class="main-content">
+          <div class="lesson-title">
+            <h2>7.4 - Fixing asset bundles shaders</h2>
+          </div>
+  
+          <hr>
+  
+          <div class="lesson-content">
+            <p>
+                To fix asset bundles GameObjects being completely black we need to do the following on each part of it which has the MeshRenderer component:
+            </p>
+
+            <pre><code lang="language-cs">
+var tank = UnityEngine.Object.Instantiate(Tank.TankPrefab, SonsTools.GetPositionInFrontOfPlayer(8, 2), Quaternion.Euler(Vector3.zero)); // spawning the tank
+
+tank.GetChildren().ForEach(child => {
+
+    var meshRend = child.GetComponent&#60;MeshRenderer&#62;(); // trying to get the MeshRenderer component from the child GameObject
+    if (meshRend) // evaluating if the child GameObject  the MeshRenderer component
+    {
+        // if so we apply a new shader
+        meshRend.sharedMaterial.shader = Shader.Find("Sons/HDRPLit"); // applying the <q>Sons/HDRPLit</q> shader to the child GameObject of the tank
+    }
+});
+
+tank.transform.Find("turret/muzzle").GetComponent&#60;MeshRenderer&#62;().sharedMaterial.shader = Shader.Find("Sons/HDRPLit"); // applying the <q>Sons/HDRPLit</q> shader to a deep nested child GameObject
+            </code></pre>
+
+            <p>
+                As you can see, most of the time to fix the black texture problem we just need to apply the <q>Sons/HDRPLit</q> shader to the child GameObjects which have the <b>MeshRenderer</b> component.
+            </p>
+
+          </div>
+  
+          <div class="lesson-buttons">
+            <div class="prev-lesson">
+              <a href="Loading and spawning asset bundles in game.html">
+                <button>Previous lesson</button>
+              </a>
+            </div>
+          </div>
+  
+        </div>
+      </main>
+    
+</body>
+</html>

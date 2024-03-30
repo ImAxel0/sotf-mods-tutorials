@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../lesson.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <link rel="icon" href="../images/GitHub-logo-black.png">
+    <title>Loading and spawning asset bundles</title>
+</head>
+<body>
+
+    <header>
+        <a href="../lessons.html"><h2 class="main-title">SOTF Mods Tutorials</h2></a>
+        <nav>
+            <a href="https://sotf-mods.com/mods" target="_blank">SOTF Mods</a>
+            <a href="https://discord.gg/sotf" target="_blank">SOTF Discord</a>
+            <a href="https://github.com/ToniMacaroni/RedLoader" target="_blank">RedLoader</a>
+        </nav>      
+      </header>
+
+      <main>
+        <div class="main-content">
+          <div class="lesson-title">
+            <h2>7.3 - Loading and spawning asset bundles in game</h2>
+          </div>
+  
+          <hr>
+  
+          <div class="lesson-content">
+            <div class="lesson-section">
+              <h3>How to make the mod locate the asset bundle file&#63;</h3>
+            </div>
+            <p>
+                First create our mod project as usual, then we create a new class with whatever name we want, like <q>TankPrefab</q>.
+            </p>
+
+            <pre><code lang="language-cs">
+// our new TankPrefab class created inside the TankPrefab.cs file
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace TankModExample;
+
+public class TankPrefab
+{
+}
+            </code></pre>
+
+            <p>
+                Then we need to add <q>using SonsSdk.Attributes;</q> at the top and do as below:
+            </p>
+
+            <pre><code lang="language-cs">
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using SonsSdk.Attributes;
+using UnityEngine;
+
+[AssetBundle("tank")] // tank is the name we gave to the asset bundle in unity bottom right corner
+public class TankPrefab
+{
+    [AssetReference("Leopard2")] // Leopard2 is the name of the prefab in Unity
+    public static GameObject Tank { get; set; }
+}
+            </code></pre>
+
+            <img src="Images/Loading and spawning asset bundles in game/Tank namings.png" alt="Tank namings">
+
+            <p>
+                We now need to get the asset bundle file we made in previous lesson (the one which has no extension) and place it inside the mod folder of our mod like so:
+            </p>
+
+            <img src="Images/Loading and spawning asset bundles in game/Placing asset bundle file in mod folder.png" alt="Placing asset bundle file in mod folder">
+
+            <div class="lesson-section">
+                <h3>Spawning the asset bundle in game</h3>
+            </div>
+            <p>
+                We can now spawn the asset bundle in game using the code below wherever we want:
+            </p>
+
+            <pre><code lang="language-cs">
+// spawning the assetbundle at the given positon and rotation
+var tank = UnityEngine.Object.Instantiate(TankPrefab.Tank, SonsTools.GetPositionInFrontOfPlayer(4, 2), Quaternion.identity);
+// tank is our spawned GameObject
+            </code></pre>
+
+            <p>
+                If upon spawning the asset bundle you see it's completely black, follow the next lesson.
+            </p>
+
+          </div>
+  
+          <div class="lesson-buttons">
+            <div class="prev-lesson">
+              <a href="Making asset bundles in Unity.html">
+                <button>Previous lesson</button>
+              </a>
+            </div>
+            <div class="next-lesson">
+              <a href="Fixing asset bundles shaders.html">
+                <button>Next lesson</button>
+              </a>
+            </div>
+          </div>
+  
+        </div>
+      </main>
+    
+</body>
+</html>
