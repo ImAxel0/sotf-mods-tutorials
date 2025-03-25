@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../lesson.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <link rel="icon" href="../images/GitHub-logo-black.png">
+    <title>Introduction to Harmony</title>
+</head>
+<body>
+
+    <header>
+        <a href="../lessons.html"><h2 class="main-title">SOTF Mods Tutorials</h2></a>
+        <nav>
+            <a href="https://sotf-mods.com/mods" target="_blank">SOTF Mods</a>
+            <a href="https://discord.gg/sotf" target="_blank">SOTF Discord</a>
+            <a href="https://github.com/ToniMacaroni/RedLoader" target="_blank">RedLoader</a>
+        </nav>      
+      </header>
+
+      <main>
+          <div class="main-content">
+              <div class="lesson-title">
+                  <h2>8.1 - Introduction to Harmony</h2>
+              </div>
+
+              <hr>
+
+              <div class="lesson-content">
+                  <p>
+                      Harmony patching allows you to add onto or replace existing methods in the game.
+                      <br>This can be used to change certain behaviors of the game, run your code at specific points or completely prevent certain methods from running.
+                      <br>
+                      <br>There are 4 types of Harmony patches:
+                      <ul>
+                          <li>Prefix</li>
+                          <li>Postfix</li>
+                          <li>Transpiler</li>
+                          <li>Finalizer</li>
+                          <br>
+                      </ul>
+                  </p>
+                  <div class="lesson-section">
+                      <h3>Prefix</h3>
+                  </div>
+                  <p>
+                      A prefix patch is a patch that runs before the original method.
+                  </p>
+                  <div class="lesson-section">
+                      <h3>Postfix</h3>
+                  </div>
+                  <p>
+                      A postfix patch is a patch that runs after the original method.
+                  </p>
+                  <div class="lesson-section">
+                      <h3>Transpiler</h3>
+                  </div>
+                  <p>
+                      A transpiler patch is a patch that allows you to modify the original method's IL code. 
+                      <br>Due to Sons of the Forest using IL2CPP this patch type should generally be avoided.
+                  </p>
+                  <div class="lesson-section">
+                      <h3>Finalizer</h3>
+                  </div>
+                  <p>
+                      A finalizer patch is a patch that runs after the original method and can be used to handle any exceptions that may occur in the original method.
+                      <br> This can be used for different purposes, but the primary use case is to catch any errors that may occur in the original method.
+                      <br> The finalizer always runs after any postfix patches, even if the postfix or original method throws an exception.
+                      <br>
+                      <br>
+                      <br><b>It is important to note that this guide only goes over the basics of harmony patching, for a more in depth explanation on what harmony is capable of you can check the official Harmony documentation <a href="https://harmony.pardeike.net/articles/intro.html" target="_blank">here</a>.</b>
+                  </p>
+              </div>
+              <div class="next-lesson">
+                  <a href="Using Harmony.html">
+                      <button>Next lesson</button>
+                  </a>
+              </div>
+          </div>
+      </main>
+    
+</body>
+</html>

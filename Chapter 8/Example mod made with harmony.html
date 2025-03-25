@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../lesson.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <link rel="icon" href="../images/GitHub-logo-black.png">
+    <title>Example mod made with Harmony</title>
+</head>
+<body>
+
+    <header>
+        <a href="../lessons.html"><h2 class="main-title">SOTF Mods Tutorials</h2></a>
+        <nav>
+            <a href="https://sotf-mods.com/mods" target="_blank">SOTF Mods</a>
+            <a href="https://discord.gg/sotf" target="_blank">SOTF Discord</a>
+            <a href="https://github.com/ToniMacaroni/RedLoader" target="_blank">RedLoader</a>
+        </nav>      
+      </header>
+
+      <main>
+          <div class="main-content">
+              <div class="lesson-title">
+                  <h2>8.3 - Example mod made with Harmony</h2>
+              </div>
+
+              <hr>
+
+              <div class="lesson-content">
+                  <p>
+                      This is the complete code of the TreeRegrowChanger mod - made by GLaD0S.
+                      <br>This mod changes the regrowth factor of trees.
+                      <br>You can find the complete code on github <a href="https://github.com/laserman120/TreeRegrowChanger" target="_blank">here</a>.
+
+                      <pre><code class="language-cs">
+using Endnight.Extensions;
+using HarmonyLib;
+using Microsoft.VisualBasic;
+using RedLoader;
+using Sons.Gameplay;
+using Sons.Gameplay.Artifact;
+using Sons.Gameplay.TreeCutting;
+using Sons.TerrainDetail;
+using SonsSdk;
+using SUI;
+using System;
+
+namespace TreeRegrowChanger;
+
+public class TreeRegrowChanger : SonsMod
+{
+
+    private static int EligibleTrees;
+    public TreeRegrowChanger()
+    {
+        HarmonyPatchAll = true; //It is important to enable Harmony patches if you want to use them.
+    }
+
+    protected override void OnInitializeMod()
+    {
+        Config.Init();
+    }
+
+    protected override void OnSdkInitialized()
+    {
+        SettingsRegistry.CreateSettings(this, null, typeof(Config));
+    }
+    //In this method we both adjust the result, skip the original method and we call another method we patched.
+    [HarmonyPatch(typeof(WorldObjectLocatorManager), "CheckRegrowTrees")]
+    private static class WorldObjectLocatorManagerCheckRegrowTreesPatch
+    {
+        private static bool Prefix( ref Il2CppInterop.Runtime.InteropTypes.Arrays.Il2CppStructArray<int> __result, 
+                                    float regrowthFactor, 
+                                    int minRegrowTreesPerCheck = -1, 
+                                    int maxRegrowTreesPerCheck = -1, 
+                                    bool force = false)
+        {
+
+        WorldObjectLocatorManager worldObjectLocatorManager;
+        if (!WorldObjectLocatorManager.TryGetInstance(out worldObjectLocatorManager))
+        {
+            //The game expects an array of 2 integers, we return an empty array if we can't get the instance.
+            __result = new int[2];
+            return false;
+        }
+
+        if (!WorldObjectLocatorManager._treeRegrowth && !force)
+        {
+            __result = new int[2];
+            return false;
+        }
+        //The regrow factor is a percentage, the game iterates over random eligible trees until the desired percentage is reached.
+        //By defaul the game would always use 10 as the factor, but we can freely overwrite this value.
+        regrowthFactor = Config.RegrowFactor.Value / 100f; 
+
+        //Call the next method with our changed values
+        __result = worldObjectLocatorManager.CheckRegrowTreesInternal(regrowthFactor, minRegrowTreesPerCheck, maxRegrowTreesPerCheck); 
+
+        return false; // Skip original method
+        }
+    }
+
+    //We use this method to call the message at the correct time, after we fetched all required values.
+    [HarmonyPatch(typeof(WorldObjectLocatorGroup), "TriggerRegrowth")] 
+    private static class TriggerRegrowPatch
+    {
+        private static void Postfix(Il2CppSystem.Collections.Generic.List<WorldLocatorId> foundTreesToRegrow, 
+                                    Il2CppSystem.Collections.Generic.List<int> foundTreesToRegrowIndices,
+                                    int countToRegrow)
+        {
+            if (Config.ShowMessage.Value)
+            {
+                //This will display a message in the bottom left corner, informing the user how many trees regrew.
+                SonsTools.ShowMessage($"Regrown {countToRegrow} of {EligibleTrees} trees", 10f);   
+            }
+        }
+    }
+    //In this method we count the trees that are eligible for regrowth.
+    [HarmonyPatch(typeof(WorldObjectLocatorManager), "CheckRegrowTreesInternal")] 
+    private static class CheckRegrowTreesInternalPatch
+    {
+        //Here we fetch the instance of this specific WorldObjectLocatorManager, we then use it to fetch the states of the trees.
+        private static void Prefix(WorldObjectLocatorManager __instance)
+        {
+            Il2CppSystem.Collections.Generic.IReadOnlyDictionary<WorldLocatorId, WorldObjectState> states = __instance._saveData.GetStates();
+            Il2CppSystem.Collections.Generic.IReadOnlyDictionary<WorldLocatorId, WorldObjectState> unappliedStates = __instance._saveData.GetUnappliedStates();
+
+            int eligibleCount = 0;
+
+            Action<WorldObjectState> checkTreeState = delegate (WorldObjectState worldObjectState)
+            {
+                if (worldObjectState == WorldObjectState.Destroyed)
+                {
+                    eligibleCount++;
+                }
+            };
+
+            states.Values.ForEach(checkTreeState);
+
+            EligibleTrees = eligibleCount; //We store the count to use it later on in the displayed message.
+            }
+        }
+    }
+
+</code></pre>
+              </div>
+
+              <div class="lesson-buttons">
+                  <div class="prev-lesson">
+                      <a href="Using Harmony.html">
+                          <button>Previous lesson</button>
+                      </a>
+                  </div>
+              </div>
+          </div>
+      </main>
+    
+</body>
+</html>
