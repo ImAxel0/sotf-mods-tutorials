@@ -70,14 +70,16 @@ public class TreeRegrowChanger : SonsMod
         SettingsRegistry.CreateSettings(this, null, typeof(Config));
     }
     //In this method we both adjust the result, skip the original method and we call another method we patched.
+    //We also never allow the original method to execute, this patch fully replaces the original method.
     [HarmonyPatch(typeof(WorldObjectLocatorManager), "CheckRegrowTrees")]
     private static class WorldObjectLocatorManagerCheckRegrowTreesPatch
     {
+        //Here we reference all the original method arguments, so we can access and if necessary modify them.
         private static bool Prefix( ref Il2CppInterop.Runtime.InteropTypes.Arrays.Il2CppStructArray<int> __result, 
-                                    float regrowthFactor, 
-                                    int minRegrowTreesPerCheck = -1, 
-                                    int maxRegrowTreesPerCheck = -1, 
-                                    bool force = false)
+                                                float regrowthFactor, 
+                                                int minRegrowTreesPerCheck = -1, 
+                                                int maxRegrowTreesPerCheck = -1, 
+                                                bool force = false)
         {
 
         WorldObjectLocatorManager worldObjectLocatorManager;
@@ -85,13 +87,13 @@ public class TreeRegrowChanger : SonsMod
         {
             //The game expects an array of 2 integers, we return an empty array if we can't get the instance.
             __result = new int[2];
-            return false;
+            return false; // Skip original method
         }
 
         if (!WorldObjectLocatorManager._treeRegrowth && !force)
         {
             __result = new int[2];
-            return false;
+            return false; // Skip original method
         }
         //The regrow factor is a percentage, the game iterates over random eligible trees until the desired percentage is reached.
         //By defaul the game would always use 10 as the factor, but we can freely overwrite this value.
@@ -104,17 +106,19 @@ public class TreeRegrowChanger : SonsMod
         }
     }
 
-    //We use this method to call the message at the correct time, after we fetched all required values.
+    //We use this method to call the message at the correct time, this makes sure that we already have all the required values we need.
     [HarmonyPatch(typeof(WorldObjectLocatorGroup), "TriggerRegrowth")] 
     private static class TriggerRegrowPatch
     {
         private static void Postfix(Il2CppSystem.Collections.Generic.List<WorldLocatorId> foundTreesToRegrow, 
-                                    Il2CppSystem.Collections.Generic.List<int> foundTreesToRegrowIndices,
-                                    int countToRegrow)
+                                                Il2CppSystem.Collections.Generic.List<int> foundTreesToRegrowIndices,
+                                                int countToRegrow)
         {
             if (Config.ShowMessage.Value)
             {
                 //This will display a message in the bottom left corner, informing the user how many trees regrew.
+                //Additionally we also display how many trees are eligible for regrowth.
+                //Doing this gives the user additional feedback and makes it easier to confirm if the mod is working as expected.
                 SonsTools.ShowMessage($"Regrown {countToRegrow} of {EligibleTrees} trees", 10f);   
             }
         }
@@ -128,7 +132,7 @@ public class TreeRegrowChanger : SonsMod
         {
             Il2CppSystem.Collections.Generic.IReadOnlyDictionary<WorldLocatorId, WorldObjectState> states = __instance._saveData.GetStates();
             Il2CppSystem.Collections.Generic.IReadOnlyDictionary<WorldLocatorId, WorldObjectState> unappliedStates = __instance._saveData.GetUnappliedStates();
-
+            //We set up our own counter on how many trees are eligible for regrowth.
             int eligibleCount = 0;
 
             Action<WorldObjectState> checkTreeState = delegate (WorldObjectState worldObjectState)

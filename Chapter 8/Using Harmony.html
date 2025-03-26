@@ -58,8 +58,8 @@ public class ExampleMod : SonsMod
                   <p>
                       A Harmony patch requires a few things to work:
                       <ul>
-                          <li>The class you want to patch</li>
-                          <li>The name of the method you want to patch</li>
+                          <li>The <b>class</b> you want to patch</li>
+                          <li>The name of the <b>method</b> you want to patch</li>
                           <li>The Harmony method</li>
                       </ul>
                   </p>
@@ -75,9 +75,11 @@ private static class OnCaveEnterPatch
 }
                   </code></pre>
                   <p>
-                      In this example we create a patch for the class "CaveEntrancemanager" and the method "OnCaveEnter".
+                      In this example we create a patch for the class <b>"CaveEntrancemanager"</b> and the method <b>"OnCaveEnter".</b>
                       <br>This specific method is called when the player enters any cave.
-                      <br>It is defined as a Prefix patch, meaning it will run before the original method.
+                      <br>It is defined as a Prefix patch, meaning it will run <b>before</b> the original method.
+                      <br>The name of the Harmony method can be <b>anything</b> you want, but it is required to be <b>unique</b>.
+                      <br>Additionall all Harmony patches must be <b>static</b>.
                   </p>
                   <pre><code class="language-cs">
 //Exit Cave
@@ -91,9 +93,9 @@ private static class OnCaveExitPatch
 }
                   </code></pre>
                   <p>
-                      Here we create another patch for the class "CaveEntranceManager" but this time on the method "OnCaveExit".
+                      Here we create another patch for the class <b>"CaveEntranceManager"</b> but this time on the method <b>"OnCaveExit"</b>.
                       <br>This specific method is called when the player exits any cave.
-                      <br>It is defined as a Postfix patch, meaning it will run after the original method.
+                      <br>It is defined as a <b>Postfix</b> patch, meaning it will run after the original method.
                       <br>In this case a prefix might be the better choice, as we allow the game to finish whatever it is doing before executing our code.
                   </p>
 
@@ -101,7 +103,7 @@ private static class OnCaveExitPatch
                       <h3>Advanced usage of patches</h3>
                   </div>
                   <p>
-                      You can also use a Prefix or Postfix to change the result of a method.
+                      You can also use a <b>Prefix or Postfix</b> to change the <b>result</b> of a method.
                       <br>For this example we will patch this method:
                   </p>
                   <pre><code class="language-cs">
@@ -114,7 +116,7 @@ public class ExampleClass
 }
                   </code></pre>
                   <p>
-                      We can create a patch to change the result of the method "GetExampleBool" to false.
+                      We can create a patch to change the <b>result</b> of the method "GetExampleBool" to false.
                   </p>
                   <pre><code class="language-cs">
 [HarmonyPatch(typeof(ExampleClass), "GetExampleBool")]
@@ -128,10 +130,10 @@ private static class SetExampleToFalsePatch
                   </code></pre>
                   <p>
                       With this patch the method will now always return false instead of true.
-                      <br>This can both be done as a prefix and as a postfix. When a result is set with a harmony patch it will always be the final result of the method.
+                      <br>This can both be done as a prefix and as a postfix. When a result is set with a harmony patch it will always be the <b>final result</b> of the method.
                       <br>
                       <br>In some cases you might also want to prevent the original method from running at all.
-                      <br>This can be achieved by using a prefix and returning false, as seen here:
+                      <br>This can be achieved by using a prefix and <b>returning false</b>, as seen here:
                   </p>
                   <pre><code class="language-cs">
 [HarmonyPatch(typeof(ExampleClass), "GetExampleBool")]
@@ -146,7 +148,7 @@ private static class SetExampleToFalsePatch
                   </code></pre>
                   <p>
                       Skipping a method does have other side effects as well.
-                      <br>The first prefix that skips the method will also skip all remaining prefixes on the same method.
+                      <br>The first prefix that skips the method will also skip <b>all remaining prefixes</b> on the same method.
                       <br>But any postfixes will still execute.
                   </p>
                   <div class="lesson-section">
