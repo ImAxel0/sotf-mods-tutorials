@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../lesson.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <link rel="icon" href="../images/GitHub-logo-black.png">
+    <title>Using Harmony</title>
+</head>
+<body>
+
+    <header>
+        <a href="../lessons.html"><h2 class="main-title">SOTF Mods Tutorials</h2></a>
+        <nav>
+            <a href="https://sotf-mods.com/mods" target="_blank">SOTF Mods</a>
+            <a href="https://discord.gg/sotf" target="_blank">SOTF Discord</a>
+            <a href="https://github.com/ToniMacaroni/RedLoader" target="_blank">RedLoader</a>
+        </nav>      
+      </header>
+
+      <main>
+          <div class="main-content">
+              <div class="lesson-title">
+                  <h2>8.2 - Using Harmony</h2>
+              </div>
+
+              <hr>
+
+              <div class="lesson-content">
+                  <p>
+                      The default Mod Template automatically generates a comment to enable any Harmony Patches in your code.
+
+                      <pre><code class="language-cs">
+public class ExampleMod : SonsMod
+{
+    public ExampleMod()
+    {
+
+        // Uncomment any of these if you need a method to run on a specific update loop.
+        //OnUpdateCallback = MyUpdateMethod;
+        //OnLateUpdateCallback = MyLateUpdateMethod;
+        //OnFixedUpdateCallback = MyFixedUpdateMethod;
+        //OnGUICallback = MyGUIMethod;
+
+        // Uncomment this to automatically apply harmony patches in your assembly.
+        HarmonyPatchAll = true;
+    }
+}
+                      </code></pre>
+                  </p>
+                  <div class="lesson-section">
+                      <h3>Creating a basic Harmony Patch</h3>
+                  </div>
+                  <p>
+                      A Harmony patch requires a few things to work:
+                      <ul>
+                          <li>The <b>class</b> you want to patch</li>
+                          <li>The name of the <b>method</b> you want to patch</li>
+                          <li>The Harmony method</li>
+                      </ul>
+                  </p>
+                  <pre><code class="language-cs">
+//Enter Cave
+[HarmonyPatch(typeof(CaveEntranceManager), "OnCaveEnter")]
+private static class OnCaveEnterPatch
+{
+    private static void Prefix()
+    {
+        //Your code here
+    }
+}
+                  </code></pre>
+                  <p>
+                      In this example we create a patch for the class <b>"CaveEntrancemanager"</b> and the method <b>"OnCaveEnter".</b>
+                      <br>This specific method is called when the player enters any cave.
+                      <br>It is defined as a Prefix patch, meaning it will run <b>before</b> the original method.
+                      <br>The name of the Harmony method can be <b>anything</b> you want, but it is required to be <b>unique</b>.
+                      <br>Additionall all Harmony patches must be <b>static</b>.
+                  </p>
+                  <pre><code class="language-cs">
+//Exit Cave
+[HarmonyPatch(typeof(CaveEntranceManager), "OnCaveExit")]
+private static class OnCaveExitPatch
+{
+    private static void Postfix()
+    {
+        //Your code here
+    }
+}
+                  </code></pre>
+                  <p>
+                      Here we create another patch for the class <b>"CaveEntranceManager"</b> but this time on the method <b>"OnCaveExit"</b>.
+                      <br>This specific method is called when the player exits any cave.
+                      <br>It is defined as a <b>Postfix</b> patch, meaning it will run after the original method.
+                      <br>In this case a prefix might be the better choice, as we allow the game to finish whatever it is doing before executing our code.
+                  </p>
+
+                  <div class="lesson-section">
+                      <h3>Advanced usage of patches</h3>
+                  </div>
+                  <p>
+                      You can also use a <b>Prefix or Postfix</b> to change the <b>result</b> of a method.
+                      <br>For this example we will patch this method:
+                  </p>
+                  <pre><code class="language-cs">
+public class ExampleClass
+{
+    public bool GetExampleBool()
+    {
+        return true;
+    }
+}
+                  </code></pre>
+                  <p>
+                      We can create a patch to change the <b>result</b> of the method "GetExampleBool" to false.
+                  </p>
+                  <pre><code class="language-cs">
+[HarmonyPatch(typeof(ExampleClass), "GetExampleBool")]
+private static class SetExampleToFalsePatch
+{
+    private static void Postfix(ref bool __result)
+    {
+       __result = false;
+    }
+}
+                  </code></pre>
+                  <p>
+                      With this patch the method will now always return false instead of true.
+                      <br>This can both be done as a prefix and as a postfix. When a result is set with a harmony patch it will always be the <b>final result</b> of the method.
+                      <br>
+                      <br>In some cases you might also want to prevent the original method from running at all.
+                      <br>This can be achieved by using a prefix and <b>returning false</b>, as seen here:
+                  </p>
+                  <pre><code class="language-cs">
+[HarmonyPatch(typeof(ExampleClass), "GetExampleBool")]
+private static class SetExampleToFalsePatch
+{
+    private static bool Prefix(ref bool __result)
+    {
+       __result = false;
+       return false; //This will prevent the original method from running, returning true would still allow the original method to run
+    }
+}
+                  </code></pre>
+                  <p>
+                      Skipping a method does have other side effects as well.
+                      <br>The first prefix that skips the method will also skip <b>all remaining prefixes</b> on the same method.
+                      <br>But any postfixes will still execute.
+                  </p>
+                  <div class="lesson-section">
+                      <h3>Accessing Arguments</h3>
+                  </div>
+                  <p>
+                      You can also access the arguments of the original method.
+                      <br>For this we will create another example:
+                  </p>
+                  <pre><code class="language-cs">
+public class ExampleClass
+{
+    public int AmountOfCookies(string cookieType, int jarSize)
+    {
+        if(cookieType == "chocolate")
+        {
+            return jarSize * 2;
+        }
+        else
+        {
+            return jarSize * 5;
+        }
+    }
+}
+                  </code></pre>
+                  <p>
+                      We will now create a patch that will double the amount of cookies if the cookie type is "chocolate".
+                      <br>We will also prevent the original method from executing, so only our code will run.
+                  </p>
+                  <pre><code class="language-cs">
+[HarmonyPatch(typeof(ExampleClass), "AmountOfCookies")]
+private static class AmountOfCookiesPatch
+{
+    private static bool Prefix(ref int __result, string cookieType, int jarSize)
+    {
+        if(cookieType == "chocolate")
+        {
+            __result = jarSize * 4; //We need to set the result, we cannot return it
+        }
+        else
+        {
+            __ result = jarSize * 5;
+        }
+        return false; //Do not execute the original method
+    }
+}
+</code></pre>
+              </div>
+
+              <div class="lesson-buttons">
+                  <div class="prev-lesson">
+                      <a href="Introduction to harmony.html">
+                          <button>Previous lesson</button>
+                      </a>
+                  </div>
+
+                  <div class="next-lesson">
+                      <a href="Example mod made with harmony.html">
+                          <button>Next lesson</button>
+                      </a>
+                  </div>
+              </div>
+          </div>
+      </main>
+    
+</body>
+</html>
