@@ -107,7 +107,7 @@ public class TreeRegrowChanger : SonsMod
     }
 
     //We use this method to call the message at the correct time, this makes sure that we already have all the required values we need.
-    [HarmonyPatch(typeof(WorldObjectLocatorGroup), "TriggerRegrowth")] 
+    [HarmonyPatch(typeof(WorldObjectLocatorGroup), nameof(WorldObjectLocatorGroup.TriggerRegrowth))] 
     private static class TriggerRegrowPatch
     {
         private static void Postfix(Il2CppSystem.Collections.Generic.List<WorldLocatorId> foundTreesToRegrow, 
@@ -124,7 +124,7 @@ public class TreeRegrowChanger : SonsMod
         }
     }
     //In this method we count the trees that are eligible for regrowth.
-    [HarmonyPatch(typeof(WorldObjectLocatorManager), "CheckRegrowTreesInternal")] 
+    [HarmonyPatch(typeof(WorldObjectLocatorManager), nameof(WorldObjectLocatorManagerCheckRegrowTreesInternal))] 
     private static class CheckRegrowTreesInternalPatch
     {
         //Here we fetch the instance of this specific WorldObjectLocatorManager, we then use it to fetch the states of the trees.

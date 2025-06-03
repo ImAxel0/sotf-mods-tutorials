@@ -95,8 +95,24 @@ private static class OnCaveExitPatch
                   <p>
                       Here we create another patch for the class <b>"CaveEntranceManager"</b> but this time on the method <b>"OnCaveExit"</b>.
                       <br>This specific method is called when the player exits any cave.
-                      <br>It is defined as a <b>Postfix</b> patch, meaning it will run after the original method.
-                      <br>In this case a prefix might be the better choice, as we allow the game to finish whatever it is doing before executing our code.
+                      <br>It is defined as a <b>Postfix</b> patch, meaning it will run <b>after</b> the original method.
+                      <br>In this case a postfix might be the better choice, as we allow the game to finish whatever it is doing before executing our code.
+                  </p>
+                  <pre><code class="language-cs">
+    //Exit Cave
+[HarmonyPatch(typeof(CaveEntranceManager), nameof(CaveEntranceManager.OnCaveExit))]
+private static class OnCaveExitPatch
+{
+    private static void Postfix()
+    {
+        //Your code here
+    }
+}
+</code></pre>
+                  <p>
+                      While it is possible to use the name of the method you are patching you can also use <b>"nameof()"</b>.
+                      <br>This is generally good practice, the compiler can tell you if this method actually exists, making it a lot easier to spot issues after updates.
+                      <br>For future proofing all following examples will use nameof().
                   </p>
 
                   <div class="lesson-section">
@@ -119,7 +135,7 @@ public class ExampleClass
                       We can create a patch to change the <b>result</b> of the method "GetExampleBool" to false.
                   </p>
                   <pre><code class="language-cs">
-[HarmonyPatch(typeof(ExampleClass), "GetExampleBool")]
+[HarmonyPatch(typeof(ExampleClass), nameof(ExampleClass.GetExampleBool))]
 private static class SetExampleToFalsePatch
 {
     private static void Postfix(ref bool __result)
@@ -133,10 +149,10 @@ private static class SetExampleToFalsePatch
                       <br>This can both be done as a prefix and as a postfix. When a result is set with a harmony patch it will always be the <b>final result</b> of the method.
                       <br>
                       <br>In some cases you might also want to prevent the original method from running at all.
-                      <br>This can be achieved by using a prefix and <b>returning false</b>, as seen here:
+                      <br>This can be achieved by using a prefix, creating a method of the type <b>boolean</b> and <b>returning false</b>, as seen here:
                   </p>
                   <pre><code class="language-cs">
-[HarmonyPatch(typeof(ExampleClass), "GetExampleBool")]
+[HarmonyPatch(typeof(ExampleClass), nameof(ExampleClass.GetExampleBool))]
 private static class SetExampleToFalsePatch
 {
     private static bool Prefix(ref bool __result)
@@ -179,7 +195,7 @@ public class ExampleClass
                       <br>We will also prevent the original method from executing, so only our code will run.
                   </p>
                   <pre><code class="language-cs">
-[HarmonyPatch(typeof(ExampleClass), "AmountOfCookies")]
+[HarmonyPatch(typeof(ExampleClass), nameof(ExampleClass.AmountOfCookies))]
 private static class AmountOfCookiesPatch
 {
     private static bool Prefix(ref int __result, string cookieType, int jarSize)
